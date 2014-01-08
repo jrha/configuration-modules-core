@@ -37,7 +37,7 @@ type component_download_file = {
     "proxy"   : boolean = true
     "gssapi"  ? boolean
     "perm"    ? string
-    "owner"   ? string
+    "owner"   ? string with match(SELF, '\w+(:\w+)?')
     "group"   ? string
     "min_age" : long = 0     # Don't consider the remote file to be new until it is this number of minutes old
     "cacert"  ? string

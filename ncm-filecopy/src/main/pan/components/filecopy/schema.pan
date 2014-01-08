@@ -28,7 +28,7 @@ type structure_filecopy = {
     'source'      ? string      # source file
     'restart'     ? string
     'perms'       ? string with match(SELF, '^[02-6]?[0-7]{3,3}$')
-    'owner'       ? string
+    'owner'       ? string with match(SELF, '\w+(:\w+)?')
     'group'       ? string
     'no_utf8'     ? boolean
     'forceRestart' : boolean = false

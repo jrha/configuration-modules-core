@@ -22,8 +22,8 @@ function structure_cron_log_valid = {
 type structure_cron_log = {
     'disabled'  ? boolean
     'name'      ? string
-    'owner'     ? string
-    'mode'      ? string
+    'owner'     ? string with match(SELF, '\w+(:\w+)?')
+    'mode'      ? string with match(SELF, '^[02-6]?[0-7]{3,3}$')
 } with structure_cron_log_valid(SELF);
 
 type structure_cron_timing = {

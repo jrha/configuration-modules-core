@@ -24,7 +24,7 @@ type contactgroupstring = string with exists ("/software/components/nagios/conta
 	SELF=="*";
 
 type contactstring = string with exists ("/software/components/nagios/contacts/" + SELF) ||
-	SELF=="*";	
+	SELF=="*";
 
 type servicegroupstring = string with exists ("/software/components/nagios/servicegroups/" + SELF) ||
 	SELF=="*";
@@ -69,7 +69,7 @@ type structure_nagios_host_generic = {
 
 # Host definition.
 type structure_nagios_host = {
-	"alias" : string 
+	"alias" : string
 	"use" ? string # Used to insert a template host declaration
 	"address" ? type_ip # If not present, gethostbyname will be used.
 	"parents" ? hoststring[]
@@ -116,7 +116,7 @@ type structure_nagios_hostdependency = {
 # Service definition
 type structure_nagios_service = {
 	"name"	? string # Used when it s a template declaration
-	"use" ? string # Used to include template 
+	"use" ? string # Used to include template
 	"host_name" ? hoststring[]
 	"hostgroup_name" ? hostgroupstring[]
 	"servicegroups" ? servicegroupstring []
@@ -170,7 +170,7 @@ type structure_nagios_servicedependency = {
 	"hostgroup_name" ? hostgroupstring
 	"service_description" : string
 	"inherits_parent" ? boolean
-	"execution_failure_criteria" ? execution_failure_string [] 
+	"execution_failure_criteria" ? execution_failure_string []
 	"notification_failure_criteria" ? notification_failure_string []
 	"dependency_period" ? timeperiodstring
 } with has_host_or_hostgroup (SELF);;
@@ -216,7 +216,7 @@ type structure_nagios_timeperiod = {
 type structure_nagios_serviceextinfo = {
 	"host_name" ? hoststring[]
 	"service_description" : string
-	"hostgroup_name" ? hostgroupstring[]	
+	"hostgroup_name" ? hostgroupstring[]
 	"notes" ? string
 	"notes_url" ? type_absoluteURI
 	"action_url" ? type_absoluteURI
@@ -342,7 +342,7 @@ type structure_nagios_nagios_cfg = {
 	"high_host_flap_threshold" : long = 20
 	"date_format" : string = "euro"
 	"p1_file" : string = "/usr/bin/p1.pl"
-	"illegal_object_name_chars" : string = "`~!$%^&*|'<>?,()\"" 
+	"illegal_object_name_chars" : string = "`~!$%^&*|'<>?,()\""
 	"illegal_macro_output_chars" : string = "`~$^&|'<>\""
 	"use_regexp_matching" : boolean = true
 	"use_true_regexp_matching" : boolean = false
@@ -381,7 +381,7 @@ type structure_nagios_nagios_cfg = {
 	"max_debug_file_size" ? long
     "ocsp_command" ? string
 };
-	
+
 type structure_nagios_service_list=structure_nagios_service[];
 
 # Everything that can be handled by this component

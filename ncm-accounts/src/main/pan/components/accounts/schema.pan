@@ -34,7 +34,7 @@ type structure_userinfo = {
     'poolDigits' ? long(1..)
     'poolSize'   ? long(0..)
     'info'       ? string{}
-    'ldap'	 ? boolean
+    'ldap'       ? boolean
 };
 
 type structure_groupinfo = {

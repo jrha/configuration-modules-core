@@ -11,7 +11,7 @@
 
 unique template components/accounts/sysgroups;
 
-'/software/components/accounts/kept_groups' ?= nlist(
+'/software/components/accounts/kept_groups' ?= dict(
     'bin', '',
     'daemon' ,'',
     'sys' ,'',

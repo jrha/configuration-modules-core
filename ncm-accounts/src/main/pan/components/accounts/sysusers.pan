@@ -84,4 +84,4 @@ unique template components/accounts/sysusers;
     'uuidd', '',
     'webalizer', '',
     'apacheds', '',
-   );
+);

@@ -88,4 +88,4 @@ unique template components/accounts/sysgroups;
     'cimsrvr', '',
     'vboxusers', '',
     'apacheds', '',
-   );
+);

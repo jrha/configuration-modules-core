@@ -33,8 +33,10 @@ function is_user_or_group = {
         names=ARGV;
         idx=1; # skip first idx=0
     } else {
-        error("2nd argument is either a list (list of names) or "+
-              "a string (2nd and other arguments as list of names)");
+        error(
+            "2nd argument is either a list (list of names) or " +
+            "a string (2nd and other arguments as list of names)"
+        );
     };
     pref = "/software/components/accounts";
     name_exists = true;
@@ -109,15 +111,11 @@ function create_user = {
     };
     accounts = SELF;
 
-    if ( !exists(user_params['homeDir']) &&
-         exists(ACCOUNTS_USER_HOME_ROOT) &&
-         is_defined(username) ) {
+    if ( !exists(user_params['homeDir']) && exists(ACCOUNTS_USER_HOME_ROOT) && is_defined(username) ) {
         user_params['homeDir'] = ACCOUNTS_USER_HOME_ROOT + '/' + username;
     };
 
-    if ( !exists(user_params['createHome']) &&
-          exists(ACCOUNTS_USER_CREATE_HOME) &&
-          exists(user_params['homeDir']) ) {
+    if ( !exists(user_params['createHome']) && exists(ACCOUNTS_USER_CREATE_HOME) && exists(user_params['homeDir']) ) {
         user_params['createHome'] = ACCOUNTS_USER_CREATE_HOME;
     };
 
@@ -139,9 +137,7 @@ function create_user = {
         ok = first(user_params['groups'], i, groupname);
         while (ok) {
             if ( !exists(accounts['groups'][groupname]) ) {
-                if ( groupname == username &&
-                     exists(user_params['uid']) &&
-                     !exists(user_params['poolStart']) ) {
+                if ( groupname == username && exists(user_params['uid']) && !exists(user_params['poolStart']) ) {
                     accounts = create_group(groupname,dict('gid',user_params['uid']));
                 } else {
                     if  (ACCOUNTS_IGNORE_MISSING_GROUPS) {
@@ -194,9 +190,9 @@ function create_accounts_from_db = {
     };
 
     if ( ARGC >=3 && (ARGV[2] == 1) ) {
-       accountType = 'group';
+        accountType = 'group';
     } else {
-       accountType = 'user';
+        accountType = 'user';
     };
 
     if ( !exists(SELF) ) {
@@ -252,13 +248,13 @@ function keep_user_group = {
     };
 
     if ( is_string(ARGV[0]) ) {
-      tmp = ARGV[0];
-      ARGV[0] = undef;
-      ARGV[0] = list(tmp);
+        tmp = ARGV[0];
+        ARGV[0] = undef;
+        ARGV[0] = list(tmp);
     };
 
     foreach (i;v;ARGV[0]) {
-      SELF[v] = '';
+        SELF[v] = '';
     };
 
     SELF;

@@ -27,11 +27,11 @@ function is_user_or_group = {
     };
     typ = ARGV[0];
     if(is_list(ARGV[1])) {
-        names=ARGV[1];
-        idx=0;
+        names = ARGV[1];
+        idx = 0;
     } else if (is_string(ARGV[1])) {
-        names=ARGV;
-        idx=1; # skip first idx=0
+        names = ARGV;
+        idx = 1; # skip first idx = 0
     } else {
         error(
             "2nd argument is either a list (list of names) or " +
@@ -41,7 +41,7 @@ function is_user_or_group = {
     pref = "/software/components/accounts";
     name_exists = true;
     while(idx < length(names)) {
-        name=names[idx];
+        name = names[idx];
         path = format("%s/%ss/%s", pref, typ, name);
         kept_path = format("%s/kept_%ss/%s", pref, typ, name);
         name_exists = name_exists && (path_exists(path) || path_exists(kept_path));
@@ -189,7 +189,7 @@ function create_accounts_from_db = {
         account_list = undef;
     };
 
-    if ( ARGC >=3 && (ARGV[2] == 1) ) {
+    if ( ARGC >= 3 && (ARGV[2] == 1) ) {
         accountType = 'group';
     } else {
         accountType = 'user';

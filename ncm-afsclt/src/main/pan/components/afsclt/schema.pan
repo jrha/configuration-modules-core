@@ -17,7 +17,7 @@ type component_afsclt_entry = {
    "cachemount" ? string         # "AFS cache location (/usr/vice/etc/cache)"
    "cachesize"  ? string         # "AFS cache size in kB"
    "options"    ? nlist          # "AFS client options"
-   "enabled"    : string with match (SELF, 'yes|no') 
+   "enabled"    : legacy_binary_affirmation_string
    				 # "Shall AFS client be active ?"
    "afsd_args"  ? string{} # /etc/afsd.args values for rc.afs
 };

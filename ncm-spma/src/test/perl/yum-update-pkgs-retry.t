@@ -54,7 +54,7 @@ $called = 0;
 @args= ();
 $cmp->{ERROR} = 0;
 @update_pkgs_ec = qw(1);
-is($cmp->update_pkgs_retry("pkgs", "groups", "run", 1, "purge", 0, "fullsearch"), 1,
+is($cmp->update_pkgs_retry("pkgs", "run", 1, "purge", 0, "fullsearch"), 1,
    "Call with userpkgs=true, retry=false");
 is($called, 1, "Basic invocation makes 1 update_pkgs call (with update_pkgs=success)");
 ok (! $args[0]->[5], "1st (and only) update_pkgs call has tx_error_is_warn=false");
@@ -73,7 +73,7 @@ $called = 0;
 @args= ();
 $cmp->{ERROR} = 0;
 @update_pkgs_ec = qw(0);
-is($cmp->update_pkgs_retry("pkgs", "groups", "run", 1, "purge", 0, "fullsearch"), 0,
+is($cmp->update_pkgs_retry("pkgs", "run", 1, "purge", 0, "fullsearch"), 0,
    "Call with userpkgs=true, retry=false and update_pkgs=fail returns failure");
 is($called, 1, "Basic invocation makes 1 update_pkgs call (with update_pkgs=fail, retry=false)");
 ok (! $args[0]->[5], "1st (and only) update_pkgs call has tx_error_is_warn=false");
@@ -92,7 +92,7 @@ $called = 0;
 @args= ();
 $cmp->{ERROR} = 0;
 @update_pkgs_ec = qw(0);
-is($cmp->update_pkgs_retry("pkgs", "groups", "run", 1, "purge", 1, "fullsearch"), 0,
+is($cmp->update_pkgs_retry("pkgs", "run", 1, "purge", 1, "fullsearch"), 0,
    "Call with userpkgs=true, retry=true and update_pkgs=fail returns failure");
 is($called, 1, "Invocation makes 1 update_pkgs call (with update_pkgs=fail, retry=true, userpkgs=true)");
 ok(! $args[0]->[5], "1st (and only) update_pkgs call has tx_error_is_warn=false");
@@ -112,7 +112,7 @@ $called = 0;
 @args= ();
 $cmp->{ERROR} = 0;
 @update_pkgs_ec = qw(0 0);
-is($cmp->update_pkgs_retry("pkgs", "groups", "run", 0, "purge", 1, "fullsearch"), 0,
+is($cmp->update_pkgs_retry("pkgs", "run", 0, "purge", 1, "fullsearch"), 0,
    "Call with userpkgs=false, retry=true and update_pkgs=fail/fail returns failure");
 is($called, 2, "Invocation makes 2 update_pkgs call (with update_pkgs=fail/fail, retry=true, userpkgs=false)");
 
@@ -140,7 +140,7 @@ $called = 0;
 @args= ();
 $cmp->{ERROR} = 0;
 @update_pkgs_ec = qw(0 1 0);
-is($cmp->update_pkgs_retry("pkgs", "groups", "run", 0, "purge", 1, "fullsearch"), 0,
+is($cmp->update_pkgs_retry("pkgs", "run", 0, "purge", 1, "fullsearch"), 0,
    "Call with userpkgs=false, retry=true and update_pkgs=fail/success/fail returns failure");
 is($called, 3, "Invocation makes 3 update_pkgs call (with update_pkgs=fail/success/fail, retry=true, userpkgs=false)");
 ok ($args[0]->[5], "1st update_pkgs call has tx_error_is_warn=true");
@@ -168,7 +168,7 @@ $called = 0;
 @args= ();
 $cmp->{ERROR} = 0;
 @update_pkgs_ec = qw(0 1 1);
-my @upr_args = qw(pkgs groups run 0 purge 1 fullsearch);
+my @upr_args = qw(pkgs run 0 purge 1 fullsearch);
 is($cmp->update_pkgs_retry(@upr_args), 1,
    "Call with userpkgs=false, retry=true and update_pkgs=fail/success/success returns success");
 is($called, 3, "Invocation makes 3 update_pkgs call (with update_pkgs=fail/success/success, retry=true, userpkgs=false)");
@@ -195,9 +195,9 @@ In succesful retry, the 3 update_pkgs calls receive all expected arguments
 
 # reuse last data
 diag "args ", explain \@args;
-is_deeply($args[0], ["pkgs", "groups", "run", 0, "purge", 1, "fullsearch", 0], "1st update_pkgs expected args");
-is_deeply($args[1], ["pkgs", "groups", "run", 1, "purge", 0, "fullsearch", 1], "2nd update_pkgs expected args");
-is_deeply($args[2], ["pkgs", "groups", "run", 0, "purge", 0, "fullsearch", 1], "3rd update_pkgs expected args");
+is_deeply($args[0], ["pkgs", "run", 0, "purge", 1, "fullsearch", 0], "1st update_pkgs expected args");
+is_deeply($args[1], ["pkgs", "run", 1, "purge", 0, "fullsearch", 1], "2nd update_pkgs expected args");
+is_deeply($args[2], ["pkgs", "run", 0, "purge", 0, "fullsearch", 1], "3rd update_pkgs expected args");
 
 =pod
 

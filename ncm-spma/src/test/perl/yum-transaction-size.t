@@ -32,7 +32,6 @@ $mock->mock("wanted_pkgs", Set::Scalar->new(qw(incomplete complete;noarch
 					       reallywanted)));
 $mock->mock("installed_pkgs", Set::Scalar->new(qw(incomplete complete;noarch
 						  incomplete;i386)));
-$mock->mock("expand_groups", Set::Scalar->new(qw(extra)));
 
 $mock->mock("schedule", sub {
 		my ($self, $op, $install) = @_;

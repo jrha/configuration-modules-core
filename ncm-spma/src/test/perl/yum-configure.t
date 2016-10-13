@@ -79,9 +79,8 @@ All the top-level methods are called, with C<update_pkgs_retry> being the last o
 my $name = $mock->call_pos($UPDATE_PKGS);
 is($name, "update_pkgs_retry", "Packages are updated at the end of the component");
 my @args = $mock->call_args($UPDATE_PKGS);
-is(ref($args[2]), 'HASH', "Set of groups is passed");
-ok($args[3], "Run argument is correctly passed");
-ok(!$args[4], "No user packages allowed in update_pkgs_retry");
+ok($args[2], "Run argument is correctly passed");
+ok(!$args[3], "No user packages allowed in update_pkgs_retry");
 ok(exists($args[1]->{ConsoleKit}),
   "A package list is passed to UPDATE_PKGS");
 

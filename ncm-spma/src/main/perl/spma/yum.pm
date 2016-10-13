@@ -29,7 +29,6 @@ use constant REPOS_DIR_QUATTOR => "/etc/yum.quattor.repos.d";
 use constant REPOS_TEMPLATE => "repository";
 use constant REPOS_TREE => "/software/repositories";
 use constant PKGS_TREE => "/software/packages";
-use constant GROUPS_TREE => "/software/groups";
 use constant CMP_TREE => "/software/components/${project.artifactId}";
 use constant RPM_QUERY => [qw(rpm -qa --qf %{NAME}\n%{NAME};%{ARCH}\n)];
 use constant REMOVE => "remove";
@@ -52,7 +51,6 @@ use constant YUM_CONF_PLUGINCONFPATH => 'pluginconfpath';
 use constant YUM_CONF_REPOSDIR => 'reposdir';
 
 # Must use cache (-C option)
-use constant REPOGROUP => qw(repoquery -C -l -g --grouppkgs);
 use constant REPOQUERY => qw(repoquery -C --show-duplicates --envra);
 use constant REPO_DEPS => qw(repoquery -C --requires --resolve --plugins
                              --qf %{NAME};%{ARCH});
@@ -351,26 +349,6 @@ sub installed_pkgs
     my @pkgs = grep($_ !~ m{^gpg-pubkey.*\(none\)$}, split(/\n/, $out));
 
     return Set::Scalar->new(@pkgs);
-}
-
-# Returns the set of packages in all the $groups passed as arguments,
-# or undef if ANY of the groups cannot be expanded.  For now it calls
-# repoquery once per group.  I hope there will be few enough groups in
-# the profile so that this isn't a performance bottleneck.
-sub expand_groups
-{
-    my ($self, $groups) = @_;
-
-    my $pkgs = Set::Scalar->new();
-
-    while (my ($group, $types) = each(%$groups)) {
-        my $what = join(",", grep($types->{$_}, keys(%$types)));
-        my $lst = $self->execute_yum_command([REPOGROUP, $what, $group],
-                                             "Group expansion", 1)
-            or return undef;
-        $pkgs->insert(split(/\n/, $lst));
-    }
-    return $pkgs;
 }
 
 # Returns a set with the desired packages.
@@ -771,7 +749,7 @@ sub distrosync
 # Updates the packages on the system.
 sub update_pkgs
 {
-    my ($self, $pkgs, $groups, $run, $allow_user_pkgs, $purge, $error_is_warn, $fullsearch, $reuse_cache) = @_;
+    my ($self, $pkgs, $run, $allow_user_pkgs, $purge, $error_is_warn, $fullsearch, $reuse_cache) = @_;
 
     $self->complete_transaction() or return 0;
 
@@ -786,13 +764,8 @@ sub update_pkgs
 
     $self->distrosync($run) or return 0;
 
-    my $group_pkgs = $self->expand_groups($groups);
-    defined($group_pkgs) or return 0;
-
-    my $wanted_pkgs = $self->wanted_pkgs($pkgs);
-    defined($wanted_pkgs) or return 0;
-
-    my $wanted = $group_pkgs + $wanted_pkgs;
+    my $wanted = $self->wanted_pkgs($pkgs);
+    defined($wanted) or return 0;
 
     my $installed = $self->installed_pkgs();
     defined($installed) or return 0;
@@ -821,7 +794,7 @@ sub update_pkgs
 # Updates the packages on the system.
 sub update_pkgs_retry
 {
-    my ($self, $pkgs, $groups, $run, $allow_user_pkgs, $purge, $retry_if_not_allow_user_pkgs, $fullsearch) = @_;
+    my ($self, $pkgs, $run, $allow_user_pkgs, $purge, $retry_if_not_allow_user_pkgs, $fullsearch) = @_;
 
     # If an error is logged due to failed transaction (or spare dependencies),
     # it might be retried and might succeed, but ncm-ncd will not allow
@@ -832,7 +805,7 @@ sub update_pkgs_retry
     # Introduce shortcut to call update_pkgs with the same except 2 arguments
     my $update_pkgs = sub {
         my ($allow_user_pkgs, $error_is_warn, $reuse_cache) = @_;
-        return $self->update_pkgs($pkgs, $groups, $run, $allow_user_pkgs,
+        return $self->update_pkgs($pkgs, $run, $allow_user_pkgs,
                                   $purge, $error_is_warn, $fullsearch, $reuse_cache);
     };
 
@@ -1146,7 +1119,6 @@ sub Configure
 
     my $repos = $config->getTree(REPOS_TREE);
     my $pkgs = $config->getTree(PKGS_TREE);
-    my $groups = $config->getTree(GROUPS_TREE) || {};
 
     # check if a temp location is required for NoAction support.
     my $prefix = $self->noaction_prefix($NoAction, YUM_PLUGIN_DIR, $main_repos_dir, YUM_CONF_FILE);
@@ -1186,7 +1158,7 @@ sub Configure
     $self->configure_yum(_prefix_noaction_prefix(YUM_CONF_FILE),
                          $t->{process_obsoletes}, $plugindir, $reposdir, $t->{main_options});
 
-    $res = $self->update_pkgs_retry($pkgs, $groups, $t->{run},
+    $res = $self->update_pkgs_retry($pkgs, $t->{run},
                                     $t->{userpkgs}, $purge_caches, $t->{userpkgs_retry},
                                     $t->{fullsearch});
 

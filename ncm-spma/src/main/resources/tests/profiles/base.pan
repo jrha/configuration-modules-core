@@ -4,7 +4,6 @@ include "components/spma/yum/schema";
 
 '/software/components/spma' = dict();
 '/software/packages' = dict();
-'/software/groups' = dict();
 
 prefix "/software/repositories/0";
 "enabled" = true;

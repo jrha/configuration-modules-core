@@ -4,10 +4,8 @@
 
 unique template components/spma/yum/config;
 
-# Prefix for packages/groups
+# Prefix for packages
 prefix '/software';
-
-'groups' ?= dict();
 
 # Package to install
 'packages' = pkg_repl("ncm-${project.artifactId}", "${no-snapshot-version}-${rpm.release}", "noarch");
@@ -18,7 +16,6 @@ prefix '/software/components/${project.artifactId}';
 'packager' = 'yum';
 
 'register_change' ?= list(
-    "/software/groups",
     "/software/packages",
     "/software/repositories",
 );

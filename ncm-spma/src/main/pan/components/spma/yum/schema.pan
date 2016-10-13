@@ -7,12 +7,6 @@ declaration template components/spma/yum/schema;
 include 'components/spma/schema';
 include 'components/spma/schema-common-yum';
 
-type SOFTWARE_GROUP = {
-    "default" : boolean = true
-    "mandatory" : boolean = true
-    "optional" : boolean = false
-};
-
 @documentation{
     Main configuration options for yum.conf.
     The cleanup_on_remove, obsoletes, reposdir and pluginpath are set internally.
@@ -38,7 +32,3 @@ type component_spma_yum = {
 };
 
 bind "/software/components/spma" = component_spma_yum;
-bind "/software/groups" = SOFTWARE_GROUP{} with {
-    if (length(SELF) > 0) deprecated(0, 'Support for YUM groups will be removed in a future release.');
-    true;
-};

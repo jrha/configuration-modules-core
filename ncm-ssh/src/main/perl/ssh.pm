@@ -31,14 +31,14 @@ sub valid_sshd_file
     my ($self, $file, $cfg) = @_;
 
     my $sshd_bin = $cfg->{sshd_path} || DEFAULT_SSHD_PATH;
-    
+
     if (defined($cfg->{always_validate}) && !$cfg->{always_validate} && ! -x $sshd_bin) {
         $self->info("$sshd_bin doesn't exist with always_validate=0, skipping sshd config test.");
         return 1;
     }
 
     # Use /dev/stdin, instead of /proc/self/fd/0 (which is used in some other components).
-    # This is because /proc/self/fd/0 does not exist on Solaris. 
+    # This is because /proc/self/fd/0 does not exist on Solaris.
     my $cmdline = [ $sshd_bin, '-t', '-f', '/dev/stdin' ];
 
     my $cmd = CAF::Process->new(
@@ -84,8 +84,8 @@ sub handle_config_file
         foreach my $option (sort keys %{$cfg->{$option_set}}) {
             my $val = $cfg->{$option_set}->{$option};
             my $ref = ref($val);
-            if($ref) {
-                if($ref eq 'ARRAY') {
+            if ($ref) {
+                if ($ref eq 'ARRAY') {
                     if (grep {$_ eq $option} SSHD_CONFIG_MULTILINE) {
                         # remove any existing line for this option
                         # then add the options back in at the end of the file
@@ -93,22 +93,25 @@ sub handle_config_file
                         foreach my $multival (@$val) {
                             print $fh "$option $multival\n";
                         }
-                        next;        
+                        next;
                     }
                     $val = join(',', @$val);
                 } else {
-                    $self->error("Unsupported value reference $ref for option $option.",
-                                 " (Possibly bug in profile/schema).");
+                    $self->error(
+                        "Unsupported value reference $ref for option $option.",
+                        " (Possible bug in profile/schema)."
+                    );
                     next;
                 }
             }
             my $escaped_val = $val;
             $escaped_val =~ s{([?{}.()\[\]])}{\\$1}g;
             $fh->add_or_replace_lines(
-                qr{(?i)^\W*$option(?:\s+\S+)+}, qr{^\s*$comment\s*$option\s+$escaped_val\s*$},
+                qr{(?i)^\W*$option(?:\s+\S+)+},
+                qr{^\s*$comment\s*$option\s+$escaped_val\s*$},
                 "$comment$option $val\n",
                 ENDING_OF_FILE
-                );
+            );
         }
     }
 
@@ -125,16 +128,18 @@ sub Configure
 
     # Retrieve configuration and do some initializations
     # Define paths for convenience.
-    my $base       = "/software/components/ssh";
+    my $base = "/software/components/ssh";
     my $ssh_config = $config->getElement($base)->getTree();
-    my $ok         = 1;
+    my $ok = 1;
 
     if ($ssh_config->{daemon}) {
-        if ($self->handle_config_file($ssh_config->{daemon}->{config_path} || DEFAULT_SSHD_CONFIG,
-                                      0600,
-                                      $ssh_config->{daemon},
-                                      \&valid_sshd_file))
-        {
+        my $changed = $self->handle_config_file(
+            $ssh_config->{daemon}->{config_path} || DEFAULT_SSHD_CONFIG,
+            0600,
+            $ssh_config->{daemon},
+            \&valid_sshd_file
+        );
+        if ($changed) {
             CAF::Process->new([qw(/sbin/service sshd condrestart)], log => $self)->run();
             if ($?) {
                 $self->error("Unable to restart the sshd daemon");
@@ -144,9 +149,11 @@ sub Configure
     }
 
     if ($ssh_config->{client}) {
-        $self->handle_config_file($ssh_config->{client}->{config_path} || DEFAULT_SSH_CONFIG,
-                                  0644,
-                                  $ssh_config->{client});
+        $self->handle_config_file(
+            $ssh_config->{client}->{config_path} || DEFAULT_SSH_CONFIG,
+            0644,
+            $ssh_config->{client}
+        );
     }
     return $ok;
 }

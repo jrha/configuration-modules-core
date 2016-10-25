@@ -25,6 +25,18 @@ use constant DEFAULT_SSHD_PATH    => "/usr/sbin/sshd";
 use constant DEFAULT_SSH_CONFIG   => "/etc/ssh/ssh_config";
 use constant SSHD_CONFIG_MULTILINE => qw(HostKey AcceptEnv ListenAddress);
 
+# Returns 'yes' or 'no' when passed either of those values or their boolean equivalents
+sub bool_yes_no {
+    my $v = $_[0];
+    if ($v eq 1) {
+        return 'yes';
+    }
+    elsif ($v eq 0) {
+        return 'no';
+    }
+    return $v;
+}
+
 # Returns true if $file is a valid SSHD configuration file.
 sub valid_sshd_file
 {
@@ -104,7 +116,9 @@ sub handle_config_file
                     next;
                 }
             }
+
             my $escaped_val = $val;
+            $val = bool_yes_no($val);
             $escaped_val =~ s{([?{}.()\[\]])}{\\$1}g;
             $fh->add_or_replace_lines(
                 qr{(?i)^\W*$option(?:\s+\S+)+},

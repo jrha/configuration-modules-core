@@ -50,6 +50,8 @@ my $t = $cfg->getElement("/software/components/ssh/daemon")->getTree();
 $cmp->handle_config_file($SSH_FILE, 0600, $t);
 $fh = get_file($SSH_FILE);
 like($fh, qr{^AllowGroups\s+a b c$}m, "Multiword option accepted and modified correctly");
+like($fh, qr{^MaxAuthTries 0$}m, "RhostsRSAAuthentication set to no");
+
 
 is(*$fh->{CANCELLED}, 1, "File with no validation is written");
 
@@ -68,5 +70,12 @@ $cmp->handle_config_file($SSH_FILE_CLIENT, 0644,
 my $client = get_file($SSH_FILE_CLIENT);
 like("$client", qr{^Port 22222$}m, "Port number set");
 like("$client", qr{^PreferredAuthentications gssapi-with-mic,hostbased,publickey$}m, "PreferredAuthentications list set");
+
+# test that yes/no (and inbetween) options are correctly handled
+like("$client", qr{^Compression delayed$}m, "Compression set to delayed");
+like("$client", qr{^MACs yes$}m, "MACs set to yes");
+like("$client", qr{^GSSAPIAuthentication yes$}m, "GSSAPIAuthentication set to yes");
+like("$client", qr{^PasswordAuthentication no$}m, "PasswordAuthentication set to no");
+like("$client", qr{^RhostsRSAAuthentication no$}m, "RhostsRSAAuthentication set to no");
 
 done_testing();

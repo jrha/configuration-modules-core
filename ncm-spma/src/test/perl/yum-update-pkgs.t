@@ -247,7 +247,7 @@ is($cmp->{MAKE_CACHE}->{called}, 0,
 
 clear_mock_counters($cmp);
 $cmp->{MAKE_CACHE}->{return} = 0;
-is($cmp->update_pkgs("pkgs", run", 0), 0,
+is($cmp->update_pkgs("pkgs", "run", 0), 0,
    "Failure in versionlrmock is detected");
 is($cmp->{MAKE_CACHE}->{called}, 1, "make_cache is actually called");
 is($cmp->{VERSIONLOCK}->{called}, 0,

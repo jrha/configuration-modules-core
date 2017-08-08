@@ -146,10 +146,10 @@ sub writeAutoMap
         $reentry =~ s/\*/\\*/;
 
         push(@$linedata, [
-                 '^#?' . $reentry . '\s+.*', # linere
-                 '^' . $reentry . '\s+' . $options . '\s+' . $location . '\s*$', # goodre
-                 "$entry\t" . $options . "\t" . $location . "\n",
-             ]);
+            '^#?' . $reentry . '\s+.*', # linere
+            '^' . $reentry . '\s+' . $options . '\s+' . $location . '\s*$', # goodre
+            "$entry\t" . $options . "\t" . $location . "\n",
+        ]);
     }
 
     # when no entries are defined, the file is wiped unless it's preserved.
@@ -240,7 +240,7 @@ sub Configure
                         owner => "root",
                         group => "root",
                         mode => oct(755),
-                        );
+                    );
 
                     # TODO: check for changes?
                     if ( ! defined( $status ) || $status < 0 ) {
@@ -267,10 +267,10 @@ sub Configure
         foreach my $mountp ( @{$mount_points{$map}} ) {
             $self->debug(2, "Checking entry for mount point $mountp (map $map)...");
             push(@$masterdata, [
-                     '^#?\s*(' . $ERROR_PREFIX . '\s*)?' . $mountp . '\s+.*', # linere
-                     '^' . $map_attrs->{prefix}.$mountp .'\s+' . $map_type_prefix.$map . '\s+' . $map_attrs->{options} . '\s*$', # goodre
-                     $map_attrs->{prefix} . "$mountp\t$map_type_prefix$map\t" . $map_attrs->{options} . "\n",
-                 ]);
+                '^#?\s*(' . $ERROR_PREFIX . '\s*)?' . $mountp . '\s+.*', # linere
+                '^' . $map_attrs->{prefix}.$mountp .'\s+' . $map_type_prefix.$map . '\s+' . $map_attrs->{options} . '\s*$', # goodre
+                $map_attrs->{prefix} . "$mountp\t$map_type_prefix$map\t" . $map_attrs->{options} . "\n",
+            ]);
         }
     }
 
@@ -285,7 +285,7 @@ sub Configure
             relpath => 'autofs',
             log => $self,
             element => { yesno => 1 },
-            );
+        );
         if (!$autofs_conf) {
             $self->error("TT processing of $AUTOFS_CONF failed: $autofs_conf->{fail}");
         }
@@ -302,8 +302,7 @@ sub Configure
     if($cnt) {
         $self->info("Checking if autofs is running");
         # TODO: CAF::Service
-        my $cmd = CAF::Process->new(['/sbin/service', 'autofs', 'status'],
-                                    log => $self, keeps_state => 1);
+        my $cmd = CAF::Process->new(['/sbin/service', 'autofs', 'status'], log => $self, keeps_state => 1);
         my $output = $cmd->output();
         if ( $? ) {
             $self->info("autofs not running, skipping reload.");

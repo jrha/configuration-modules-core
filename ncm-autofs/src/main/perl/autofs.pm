@@ -145,10 +145,17 @@ sub writeAutoMap
         my $reentry = $entry;
         $reentry =~ s/\*/\\*/;
 
+        my @entry = (
+            $entry,
+            $options,
+        );
+
+        push(@entry, $location) if ($location);
+
         push(@$linedata, [
             '^#?' . $reentry . '\s+.*', # linere
-            '^' . $reentry . '\s+' . $options . '\s+' . $location . '\s*$', # goodre
-            "$entry\t" . $options . "\t" . $location . "\n",
+            '^' . join('\s+', @entry) . '\s*$', # goodre
+            join("\t", @entry) . "\n",
         ]);
     }
 
@@ -266,10 +273,17 @@ sub Configure
         my $map_type_prefix = $map_attrs->{type} eq 'direct' ? '' : $map_attrs->{type}.':';
         foreach my $mountp ( @{$mount_points{$map}} ) {
             $self->debug(2, "Checking entry for mount point $mountp (map $map)...");
+            my @map = (
+                $map_attrs->{prefix} . $mountp,
+                $map_type_prefix . $map,
+            );
+
+            push(@map, $map_attrs->{options}) if ($map_attrs->{options});
+
             push(@$masterdata, [
                 '^#?\s*(' . $ERROR_PREFIX . '\s*)?' . $mountp . '\s+.*', # linere
-                '^' . $map_attrs->{prefix}.$mountp .'\s+' . $map_type_prefix.$map . '\s+' . $map_attrs->{options} . '\s*$', # goodre
-                $map_attrs->{prefix} . "$mountp\t$map_type_prefix$map\t" . $map_attrs->{options} . "\n",
+                '^' . join('\s+', @map) . '\s*$', # goodre
+                join("\t", @map) . "\n",
             ]);
         }
     }

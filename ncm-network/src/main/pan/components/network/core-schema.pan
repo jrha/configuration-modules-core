@@ -205,7 +205,7 @@ type structure_interface_plugin_vxlan = {
     @{VXLAN Network Identifier (or VXLAN Segment ID); derived from devicename vxlan[0-9] if not defined}
     'vni' ? long(0..16777216)
     @{multicast ip to join}
-    'group' ? type_ip
+    'group' ? type_ip with ip_in_network(SELF, '224.0.0.0', '255.0.0.0')
     @{destination IP address to use in outgoing packets}
     'remote' ? type_ip
     @{source IP address to use in outgoing packets}

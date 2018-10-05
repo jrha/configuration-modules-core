@@ -268,6 +268,14 @@ sub collapse_whitespace
     return defined $text ? $text : '';
 }
 
+# Options that require a module to be loaded via --match
+Readonly::Hash my %implied_module_mapping => (
+    '--[sd]?ports' => 'multiport',
+    '--state' => 'state',
+    '--comment' => 'comment',
+    '--physdev\S+' => 'physdev',
+);
+
 # Wrap strings containing whitespace in quotation marks
 sub quote_string
 {

@@ -1,0 +1,88 @@
+# Firewall configuration written by ncm-iptables
+# Manual modifications will be overwritten on the next NCM run.
+*filter
+[% FOREACH table, action in preamble %]
+:[% table.upper() %][% action %]
+[% END %]
+[% FOREACH rule in rules %]
+[-% rule.new_chain -N
+rule.append -A
+rule.delete -D
+rule.insert -I
+rule.replace -R
+rule.src_addr -s
+rule.src -s
+rule.source -s
+rule.src_port --sport
+rule.src_ports --sports
+rule.state --state
+rule.sid-owner --sid-owner
+rule.syn --syn
+rule.nosyn ! --syn
+rule.log-tcp-sequence --log-tcp-sequence
+rule.set-class --set-class
+rule.to-source --to-source
+rule.set --set
+rule.seconds --seconds
+rule.dst_addr -d
+rule.dst -d
+rule.destination -d
+rule.dst_port --dport
+rule.dst_ports --dports
+rule.to-destination --to-destination
+rule.protocol -p
+rule.log-prefix --log-prefix
+rule.to-ports --to-ports
+rule.pkt-type --pkt-type
+rule.in_interface --in-interface
+rule.in-interface --in-interface
+rule.out_interface --out-interface
+rule.out-interface --out-interface
+rule.match --match
+rule.fragment --fragment
+rule.nofragment ! --fragment
+rule.set-class --set-class
+rule.set --set
+rule.src_port --sport
+rule.src_ports --sports
+rule.dst_port --dport
+rule.dst_ports --dports
+rule.pkt-type --pkt-type
+rule.state --state
+rule.ctstate --ctstate
+rule.ttl --ttl
+rule.tos --tos
+rule.sid-owner --sid-owner
+rule.limit --limit
+rule.limit-burst --limit-burst
+rule.rcheck --rcheck
+rule.remove --remove
+rule.rdest --rdest
+rule.rsource --rsource
+rule.rttl --rttl
+rule.update --update
+rule.seconds --seconds
+rule.hitcount --hitcount
+rule.name --name
+rule.uid-owner --uid-owner
+rule.syn --syn
+rule.nosyn ! --syn
+rule.icmp-type --icmp-type
+rule.tcp-flags --tcp-flags
+rule.tcp-option --tcp-option
+rule.length --length
+rule.target -j
+rule.jump -j
+rule.log-prefix --log-prefix
+rule.log-tcp-sequence --log-tcp-sequence
+rule.reject-with --reject-with
+rule.set-class --set-class
+rule.log-level --log-level
+rule.log-tcp-options --log-tcp-options
+rule.log-ip-options --log-ip-options
+rule.log-uid --log-uid
+rule.limit-burst --limit-burst
+rule.to-destination --to-destination
+rule.to-source --to-source
+rule.to-ports --to-ports
+rule.comment --comment

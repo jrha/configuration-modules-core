@@ -1,0 +1,5 @@
+[%  FOREACH section IN CCM.contents.pairs -%]
+[%      FOREACH pair IN section.value.pairs -%]
+[%          section.key %] [% pair.key %] [% CCM.is_list(pair.value) ? pair.value.join(' ') : pair.value %]
+[%      END -%]
+[%- END -%]

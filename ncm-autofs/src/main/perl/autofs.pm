@@ -152,6 +152,9 @@ sub writeAutoMap
 
         push(@entry, $location) if ($location);
 
+        my @reentry = @entry;
+        @reentry[0] =~ s/\*/\\*/;
+
         push(@$linedata, [
             '^#?' . $reentry . '\s+.*', # linere
             '^' . join('\s+', @entry) . '\s*$', # goodre

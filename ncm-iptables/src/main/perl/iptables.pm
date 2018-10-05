@@ -21,6 +21,9 @@ Readonly::Scalar my $path_iptables => '/software/components/iptables';
 
 Readonly::Scalar my $CONFIG_IPTABLES => '/etc/sysconfig/iptables';
 
+# Rule target can be set to these predefined special values, but they must not be redefined (with -N)
+Readonly::Scalar my $TARGET_SPECIAL_VALUES => '(ACCEPT|DROP|RETURN)';
+
 # hash of tables, chains & targets
 my %iptables_totality = (
     filter => {
@@ -203,7 +206,7 @@ my %OPTION_VALIDATORS = (
     '--syn'              => '',
     '! --syn'            => '',
     '--icmp-type'        => '\w+',
-    '-j'                 => "",
+    '-j'                 => "", #defined as "($regexp_targets)" on a table by table basis
     '--log-prefix'       => '\w+',
     '--log-level'        => '(debug|info|notice|warning|warn|err|error|crit|alert|emerg|panic)',
     '--log-tcp-sequence' => '',
@@ -431,12 +434,13 @@ sub GetResource
     return $entries if $?;
 
     foreach my $table (keys %iptables_totality) {
-        next if (!defined $entries->{$table});
-
+        $self->debug(5, "Examining totality rules for table $table");
+        next if (!defined $entries->{$table})
         #define the regular expressions for -N, -A etc based on the specific targets for table
         my $tmp = $self->uppercase($self->regExp(\@{$iptables_totality{$table}{chains}}));
         $OPTION_VALIDATORS{$_} = $tmp foreach (@{$iptables_totality{$table}{commands}});
         $OPTION_VALIDATORS{'-j'} = $self->uppercase($self->regExp(\@{$iptables_totality{$table}{targets}}));
+        $self->debug(5, "Option validators for -j: ".$OPTION_VALIDATORS{'-j'});
 
         $entries->{$table} = $self->GetPathEntries("$path/$table", $config);
         next if $?;
@@ -494,14 +498,20 @@ sub GetResource
 
                 if ($OPTION_VALIDATORS{$key}) {
                     my $aux = $OPTION_VALIDATORS{$key};
-                    if ($rule->{$key} !~ /^$aux$/ && $key =~ /^$val$/) {
+                    my $rule_target = $rule->{$key};
+                    $self->debug(5, "Validating rule target $rule_target");
+                    if ($rule_target !~ /^$aux$/ && $key =~ /^$val$/) {
                         my $skip = 0;
                         foreach my $target (@{$iptables_totality{$table}{targets}}) {
-                            $skip = 1 if $target eq $rule->{$key};
+                            $skip = 1 if $target eq $rule_target;
                         }
                         next if $skip;
-                        push(@{$iptables_totality{$table}{targets}}, $rule->{$key});
-                        $iptables_totality{$table}{user_targets}{$rule->{$key}} = 1;
+                        push(@{$iptables_totality{$table}{targets}}, $rule_target);
+                        $self->debug(5, "Adding new rule target $rule_target to table $table");
+                        if ($rule_target !~ /$TARGET_SPECIAL_VALUES/) {
+                            $self->debug(5, "Marking rule target $rule_target as user defined");
+                            $iptables_totality{$table}{user_targets}{$rule_target} = 1;
+                        }
                     }
                 }
             }
@@ -656,7 +666,7 @@ sub WriteFile
         }
 
         foreach my $target (sort keys %{$iptables_totality{$table}{user_targets}}){
-            $self->debug(5, "defining target $target");
+            $self->debug(5, "defining user target $target");
             print $fh "-N $target\n";
         }
 

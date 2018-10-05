@@ -36,6 +36,9 @@ my @sorted = $cmp->sort_keys($example_rule);
 my @expected = ('-A', '-j', '--comment');
 
 is_deeply(\@sorted, \@expected, "sort_keys sorts example keys correctly");
+undef $example_rule;
+undef @sorted;
+undef @expected;
 
 # Test rule_options_translate method
 my $translate_rule = {
@@ -51,5 +54,28 @@ my $translate_expected = {
 $cmp->rule_options_translate($translate_rule);
 
 is_deeply($translate_rule, $translate_expected, 'rule_options_translate translates example correctly');
+
+# Test cmp_rules method
+my $rule_a = {
+    'a' => 'ay',
+    'b' => 'bee',
+    'c' => 'sea',
+};
+my $rule_b = {
+    'b' => 'bee',
+    'a' => 'ay',
+    'c' => 'sea',
+};
+my $rule_c = {
+    'b' => 'bee',
+    'd' => 'dee',
+};
+
+#is($cmp->cmp_rules(\$rule_a, \$rule_b), 0, 'cmp_rules - identical rulesets');
+#is($cmp->cmp_rules(\$rule_a, \$rule_c), 1, 'cmp_rules - differing rulesets');
+
+undef $rule_a;
+undef $rule_b;
+undef $rule_c;
 
 done_testing();

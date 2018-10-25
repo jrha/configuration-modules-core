@@ -69,11 +69,13 @@ sub Configure
         my $file = "$inf->{directory}/$service";
         $file =~ s{//+}{/}g;
         my $mode = $inf->{services}->{$service}->{perm} || "0444";
-        my $fh = CAF::FileWriter->new($file, log => $self,
-                                      owner  => "root",
-                                      group  => "root",
-                                      mode   => $mode,
-                                      backup => ".OLD");
+        my $fh = CAF::FileWriter->new(
+            $file, log => $self,
+            owner  => "root",
+            group  => "root",
+            mode   => $mode,
+            backup => ".OLD",
+        );
         print $fh $body;
         $fh->close();
     }
@@ -88,7 +90,7 @@ sub Configure
             $body .= "$permission:$users:$origins\n";
         }
 
-        if(defined($inf->{access}->{$access}->{lastacl})) {
+        if (defined($inf->{access}->{$access}->{lastacl})) {
             my $lastacl = $inf->{access}->{$access}->{lastacl};
             my $permission = $lastacl->{permission};
             my $users      = $lastacl->{users};
@@ -98,11 +100,13 @@ sub Configure
 
         my $mode = 0444;
 
-        my $fh = CAF::FileWriter->new($file, log => $self,
-                                      owner  => "root",
-                                      group  => "root",
-                                      mode   => $mode,
-                                      backup => ".OLD");
+        my $fh = CAF::FileWriter->new(
+            $file, log => $self,
+            owner  => "root",
+            group  => "root",
+            mode   => $mode,
+            backup => ".OLD",
+        );
         print $fh $body;
         $fh->close();
     }
@@ -114,12 +118,14 @@ sub make_acl_file {
     my ($self, $acl) = @_;
     my $content = join("\n", sort @{$acl->{items}});
     my $mode = $acl->{mode} || "0444";
-    my $fh = CAF::FileWriter->new($acl->{filename},
-                                  log => $self,
-                                  owner  => "root",
-                                  group  => "root",
-                                  mode   => $mode,
-                                  backup => ".OLD");
+    my $fh = CAF::FileWriter->new(
+        $acl->{filename},
+        log => $self,
+        owner  => "root",
+        group  => "root",
+        mode   => $mode,
+        backup => ".OLD",
+    );
     print $fh $content;
     $fh->close();
     return;

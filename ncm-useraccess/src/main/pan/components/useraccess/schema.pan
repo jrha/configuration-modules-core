@@ -16,7 +16,7 @@ type useraccess_kerberos = {
 # Types of credentials the component will manage. These will be: "ssh"
 # if authorised SSH public keys will be handled, "k4" if Kerberos 4
 # will be handled, "k5" if Kerberos 5 will be managed.
-type credentialfilestring = string with match(SELF, "^(ssh_keys|kerberos4|kerberos5)$");
+type credentialfilestring = choice('ssh_keys', 'kerberos4', 'kerberos5)$');
 
 # Authoritation information for each user.
 type useraccess_auth = {

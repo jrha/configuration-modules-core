@@ -22,7 +22,7 @@ type rsyslog_queue = {
     'checkpointinterval' ? long(0..)
     'syncqueuefiles' ? boolean
     'samplinginterval' ? long(0..)
-    'type' ? string with match(SELF, '^(FixedArray|LinkedList|Direct|Disk)$')
+    'type' ? choice('FixedArray', 'LinkedList', 'Direct', 'Disk)$')
     'workerthreads' ? long(0..)
     'timeoutshutdown' ? long(0..)
     'timeoutactioncompletion' ? long(0..)
@@ -56,7 +56,7 @@ type rsyslog_global = {
     'janitorInterval' ? long(0..)
     'debug.onShutdown' ? boolean
     'debug.logFile' ? absolute_file_path
-    'net.ipprotocol' ? string with match(SELF, '^(unspecified|ipv4-only|ipv6-only)$')
+    'net.ipprotocol' ? choice('unspecified', 'ipv4-only', 'ipv6-only)$')
     'net.aclAddHostnameOnFail' ? boolean
     'net.aclResolveHostname' ? boolean
     'net.enableDNS' ? boolean

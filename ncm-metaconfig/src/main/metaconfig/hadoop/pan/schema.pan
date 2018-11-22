@@ -4,7 +4,7 @@ include 'pan/types';
 
 @{ type for the fs.defaultFS setting of the core-site.xml hadoop file @}
 type hadoop_core_site_fs_defaultFS  = {
-    'format' : string with match(SELF, '^(hdfs|viewfs)$')
+    'format' : choice('hdfs', 'viewfs)$')
     'host' : type_hostname
     'port' : long = 9000
 };
@@ -45,8 +45,8 @@ type hadoop_gpfs_site = {
     'mnt.dir' : string
     'data.dir' ? string
     'supergroup' ? string[]
-    'storage.type' : string with match(SELF, '^(shared|local)$')
-    'replica.enforced' : string with match(SELF, '^(dfs|gpfs)$')
+    'storage.type' : choice('shared', 'local)$')
+    'replica.enforced' : choice('dfs', 'gpfs)$')
 };
 
 @{ contents of hadoop slaves file @}

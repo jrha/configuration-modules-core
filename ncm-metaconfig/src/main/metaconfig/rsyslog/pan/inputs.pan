@@ -69,7 +69,7 @@ type rsyslog_input_udp = {
 type rsyslog_input_czmq = {
     include rsyslog_input_common
     'endpoints' ? string[]
-    'socktype' ? string with match(SELF, '^(PULL|SUB|ROUTER|DISH|SERVER)$')
+    'socktype' ? choice('PULL', 'SUB', 'ROUTER', 'DISH', 'SERVER)$')
     'authtype' ? string with mathc(SELF, '^(CURVESERVER|CURVECLIENT)$')
 };
 
@@ -103,7 +103,7 @@ type rsyslog_input = {
 
 
 type rsyslog_module_file = {
-    'mode' ? string with match(SELF, '^(inotify|polling)$')
+    'mode' ? choice('inotify', 'polling)$')
     'readTimeout' ? long(0..)
     'timeoutGranularity' ? long(0..)
     'PollingInterval' ? long(0..)
@@ -130,7 +130,7 @@ type rsyslog_module_tcp = {
 
 type rsyslog_module_udp = {
     'TimeRequery' ? long(0..)
-    'SchedulingPolicy' ? string with match(SELF, '^(rr|fifo)$')
+    'SchedulingPolicy' ? choice('rr', 'fifo)$')
     'SchedulingPriority' ? long(0..)
     'batchSize' ? long(0..)
     'threads' ? long(0..32)

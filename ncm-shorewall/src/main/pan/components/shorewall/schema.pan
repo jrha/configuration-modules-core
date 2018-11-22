@@ -27,7 +27,7 @@ type component_shorewall_masq = {
 @{a tcinterfaces entry: interface type inbw outbw}
 type component_shorewall_tcinterfaces = {
     "interface" : string
-    "type" ? string with match(SELF, '^(in|ex)ternal$')
+    "type" ? choice('in', 'ex)ternal$')
     "inbw" ? string
     "outbw" ? string
 };
@@ -48,7 +48,7 @@ type component_shorewall_tcpri = {
 type component_shorewall_zones = {
     "zone" : string(1..5)
     "parent" ? string[]
-    "type" ? string with match(SELF, '(ipv4|ipsec|firewall|bport|vserver|loopback|local)')
+    "type" ? choice('ipv4', 'ipsec', 'firewall', 'bport', 'vserver', 'loopback', 'local)')
     "options" ? string[]
     "inoptions" ? string[]
     "outoptions" ? string[]
@@ -80,7 +80,7 @@ type component_shorewall_policy = {
 # Keep this list in sync with list from TT file
 @{a stoppedrules entry: action src dst proto dport sport}
 type component_shorewall_stoppedrules = {
-    "action" ? string with match(SELF, '^(ACCEPT|NOTRACK|DROP)$')
+    "action" ? choice('ACCEPT', 'NOTRACK', 'DROP)$')
     "src" ? string[]
     "dst" ? string[]
     "proto" ? string[]
@@ -126,7 +126,7 @@ type component_shorewall_shorewall_blacklist = string with
 type component_shorewall_shorewall = {
     "accept_default" ? string
     "accounting" ? boolean
-    "accounting_table" ? string with match(SELF, '^(filter|mangle)$')
+    "accounting_table" ? choice('filter', 'mangle)$')
     "add_ip_aliases" ? boolean
     "add_snat_aliases" ? boolean
     "adminisabsentminded" ? boolean
@@ -137,7 +137,7 @@ type component_shorewall_shorewall = {
     "automake" ? boolean
     "basic_filters" ? boolean
     "blacklist" ? component_shorewall_shorewall_blacklist[]
-    "blacklist_disposition" ? string with match(SELF, '^((A_)?(DROP|REJECT))$')
+    "blacklist_disposition" ? choice('(A_)?(DROP', 'REJECT))$')
     "blacklist_loglevel" ? string
     "blacklistnewonly" ? boolean with {deprecated(0, 'shorewall blacklistnewonly deprecated by blacklist'); true;}
     "chain_scripts" ? boolean
@@ -164,10 +164,10 @@ type component_shorewall_shorewall = {
     "ignoreunknownvariables" ? boolean
     "implicit_continue" ? boolean
     "inline_matches" ? boolean
-    "invalid_disposition" ? string with match(SELF, '^((A_)?(DROP|REJECT)|CONTINUE)$')
+    "invalid_disposition" ? choice('(A_)?(DROP', 'REJECT)', 'CONTINUE)$')
     "invalid_log_level" ? string
     "ip" ? string
-    "ip_forwarding" ? string with match(SELF, "(On|Off|Keep)")
+    "ip_forwarding" ? choice('On', 'Off', 'Keep)')
     "ipsecfile" ? string with match(SELF, '^zones$')
     "ipset" ? string
     "ipset_warnings" ? boolean
@@ -176,17 +176,17 @@ type component_shorewall_shorewall = {
     "legacy_faststart" ? boolean
     "load_helpers_only" ? boolean
     "lockfile" ? string
-    "log_backend" ? string with match(SELF, '^(U?LOG|netlink)$')
+    "log_backend" ? choice('U?LOG', 'netlink)$')
     "logallnew" ? string
     "logfile" ? string
     "logformat" ? string
     "loglimit" ? string
-    "log_martians" ? string with match(SELF, '^(Yes|No|Keep)$')
+    "log_martians" ? choice('Yes', 'No', 'Keep)$')
     "logtagonly" ? boolean
     "log_verbosity" ? string
-    "maclist_disposition" ? string with match(SELF, '^((A_)?(DROP|REJECT)|ACCEPT)$')
+    "maclist_disposition" ? choice('(A_)?(DROP', 'REJECT)', 'ACCEPT)$')
     "maclist_log_level" ? string
-    "maclist_table" ? string with match(SELF, '^(filter|mangle)$')
+    "maclist_table" ? choice('filter', 'mangle)$')
     "maclist_ttl" ? long(0..)
     "mask_bits" ? long(0..)
     "mangle_enabled" ? boolean
@@ -210,7 +210,7 @@ type component_shorewall_shorewall = {
     "restore_default_route" ? boolean
     "restorefile" ? string
     "retain_aliases" ? boolean
-    "route_filter" ? string with match(SELF, '^(Yes|No|Keep)$')
+    "route_filter" ? choice('Yes', 'No', 'Keep)$')
     "rsh_command" ? string
     "save_ipsets" ? boolean
     "shorewall_shell" ? string
@@ -219,7 +219,7 @@ type component_shorewall_shorewall = {
     "startup_log" ? string
     "subsyslock" ? string
     "tc_bits" ? long(0..)
-    "tc_enabled" ? string with match(SELF, '^(Yes|No|Internal|Simple|Shared)$')
+    "tc_enabled" ? choice('Yes', 'No', 'Internal', 'Simple', 'Shared)$')
     "tc_expert" ? boolean
     "tcp_flags_disposition" ? string
     "tcp_flags_log_level" ? string

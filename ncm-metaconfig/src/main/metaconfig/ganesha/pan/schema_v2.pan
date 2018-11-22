@@ -57,7 +57,7 @@ type ganesha_v2_export_FSAL = {
     #"FSAL" ? ganesha_v2_export_FSAL
     #FSAL_VFS
     "pnfs" ? boolean = false
-    "fsid_type" ? string with match(SELF, '^(None|One64|Major64|Two64|uuid|Two32|Dev|Device)$')
+    "fsid_type" ? choice('None', 'One64', 'Major64', 'Two64', 'uuid', 'Two32', 'Dev', 'Device)$')
     #FSAL_GLUSTER
     "glfs_log" ? string = "/tmp/gfapi.log"
     "hostname" ? string # Mandatory
@@ -73,14 +73,14 @@ type ganesha_v2_export_FSAL = {
 
 type ganesha_v2_protocol = string with match(SELF, '^((NFS)?[vV]?[34]|9P)$');
 type ganesha_v2_SecType = string with match(SELF, '^(none|sys|krb5[ip]?)$');
-type ganesha_v2_Transports = string with match(SELF, '^(UDP|TCP)$');
+type ganesha_v2_Transports = choice('UDP', 'TCP)$');
 
 @{ Ganesha Export Permissions for EXPORT_DEFAULLTS, EXPORT and CLIENT sections @}
 type ganesha_v2_export_permissions = {
     "Access_Type" ? string = 'None' with match(SELF, '^(None|RW|RO|MDONLY|MDONLY_RO)$')
     "Anonymous_gid" ? long = -2
     "Anonymous_uid" ? long = -2
-    "Delegations" ? string with match(SELF, '^(None|read|write|readwrite|r|w|rw)$')
+    "Delegations" ? choice('None', 'read', 'write', 'readwrite', 'r', 'w', 'rw)$')
     "Disable_ACL" ? boolean = false
     "DisableReaddirPlus" ? boolean = false
     "Manage_Gids" ? boolean = false
@@ -309,7 +309,7 @@ type ganesha_v2_proxy = {
 @{ Ganesha GPFS section @}
 type ganesha_v2_GPFS = {
     include ganesha_v2_fsalsettings_all
-    "Delegations" ? string with match(SELF, '^(None|read|write|readwrite|r|w|rw)$')
+    "Delegations" ? choice('None', 'read', 'write', 'readwrite', 'r', 'w', 'rw)$')
     "fsal_grace" ? boolean = false
     "fsal_trace" ? boolean = true
     "pnfs_file" ? boolean = false

@@ -13,13 +13,13 @@ type autofs_conf_autofs = {
     "umount_wait" ? long(0..)
     "browse_mode" ? boolean
     "append_options" ? boolean
-    "logging" ? string with match(SELF, '^(none|verbose|debug)$')
+    "logging" ? choice('none', 'verbose', 'debug)$')
 };
 
 type autofs_conf_amd = {
     include autofs_conf_common
     "dismount_interval" ? long(0..)
-    "map_type" ? string with match(SELF, '^(file|nis|ldap)$')
+    "map_type" ? choice('file', 'nis', 'ldap)$')
     "autofs_use_lofs" ? boolean
 };
 
@@ -45,7 +45,7 @@ type autofs_map_type = {
     "preserve" : boolean = true
     @{Map type. Supported types are : direct, file, program, yp, nisplus, hesiod, userdir and ldap.
       Only direct, file and program map contents can be managed by this component.}
-    "type" : string with match(SELF, "^(direct|file|program|yp|nisplus|hesiod|userdir|ldap)$")
+    "type" : choice('direct', 'file', 'program', 'yp', 'nisplus', 'hesiod', 'userdir', 'ldap)$')
     @{Map name. If not defined, a default name is build (/etc/auto suffixed by map entry name).}
     "mapname" : string
     @{Mount point associated with this map.}

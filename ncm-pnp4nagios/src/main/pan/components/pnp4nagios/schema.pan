@@ -11,11 +11,11 @@ type pnp4nagios_php_view_type = {
     'start' : long
 };
 
-type pnp4nagios_npcd_log_type = string with match(SELF, "file|syslog");
-type pnp4nagios_php_paper_size = string with match(SELF, "A4|Letter");
-type pnp4nagios_php_ui_theme = string with match(SELF, "smoothness|lightness|redmond|multisite");
-type pnp4nagios_php_lang = string with match(SELF, "en_US|de_DE|es_ES|ru_RU|fr_FR");
-type pnp4nagios_perfdata_RRD_storage_type = string with match(SELF, "SINGLE|MULTIPLE");
+type pnp4nagios_npcd_log_type = choice('file', 'syslog');
+type pnp4nagios_php_paper_size = choice('A4', 'Letter');
+type pnp4nagios_php_ui_theme = choice('smoothness', 'lightness', 'redmond', 'multisite');
+type pnp4nagios_php_lang = choice('en_US', 'de_DE', 'es_ES', 'ru_RU', 'fr_FR');
+type pnp4nagios_perfdata_RRD_storage_type = choice('SINGLE', 'MULTIPLE');
 
 type pnp4nagios_npcd_config = {
     "user" : string    = 'nagios'

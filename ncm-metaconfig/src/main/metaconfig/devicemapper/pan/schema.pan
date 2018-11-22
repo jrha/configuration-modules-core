@@ -15,13 +15,13 @@ type multipath_types_shared = {
     @{ The default path selector algorithm }
     'path_selector' ? multipath_defaults_path_selector
     @{ how to get default path prio, default const }
-    'prio' ? string with match(SELF, '^(const|emc|alua|tpg_pref|ontap|rdac|hp_sw|hds)$')
+    'prio' ? choice('const', 'emc', 'alua', 'tpg_pref', 'ontap', 'rdac', 'hp_sw', 'hds)$')
     @{ how to manage path group failback, default manual }
-    'failback' ? string with match(SELF, '^(immediate|manual|followover)$') || to_long(SELF) > 0
+    'failback' ? choice('immediate', 'manual', 'followover)$') ', '', ' to_long(SELF) > 0
     'rr_min_io' ? long(0..) # default 1000
     'rr_min_io_rq' ? long(0..) # default 1
     'rr_weight' ? string
-    'no_path_retry' ? string with match(SELF, '^(fail|queue)$') || to_long(SELF) > 0 #  default 0
+    'no_path_retry' ? choice('fail', 'queue)$') ', '', ' to_long(SELF) > 0 #  default 0
     'flush_on_last_del' ? boolean # default false
     @{Set max_sectors_kb on multipath and paths (requires device-mapper-multipath gt 0.4.9-99)}
     'max_sectors_kb' ? long(0..)
@@ -34,10 +34,10 @@ type multipath_types_multipaths_only = {
 type multipath_types_devices_only = {
     'getuid_callout' ? string # default /lib/udev/scsi_id --whitelisted --device=/dev/%n
     @{ detemine path state, default readsector0 }
-    'path_checker' ? string with match(SELF, '^(readsector0|tur|emc_clariion|hp_sw|rdac|directio)$')
+    'path_checker' ? choice('readsector0', 'tur', 'emc_clariion', 'hp_sw', 'rdac', 'directio)$')
     'features' ? multipath_defaults_features
     @{ default timeout in seconds determined by OS}
-    'fast_io_fail_tmo' ? string with match(SELF, '^(off)$') || to_long(SELF) > 0
+    'fast_io_fail_tmo' ? choice('off)$') ', '', ' to_long(SELF) > 0
     'dev_loss_tmo' ? long(0..)
     'retain_attached_hw_handler' ? boolean # default false
     'detect_prio' ? boolean # default false
@@ -85,7 +85,7 @@ type multipath_defaults = {
     'queue_without_daemon' ? boolean # default false
     'max_fds' ? long(0..)
     'checker_timeout' ? long(0..)
-    'log_checker_err' ? string with match(SELF, '^(once|always|)$') # default always
+    'log_checker_err' ? choice('once', 'always', ')$') # default always
     'hwtable_regex_match' ? boolean # default false
 };
 

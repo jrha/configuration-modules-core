@@ -8,7 +8,7 @@ type snmp_snmp_client_behaviour = {
     "defDomain" ? string # application domain
     "defTarget" ? string # application domain target
     "defaultPort" ? long(0..)
-    "defVersion" ? string with match(SELF, '^(1|2c|3)$')
+    "defVersion" ? choice('1', '2c', '3)$')
     "defCommunity" ? string
     "alias" ? string # NAME DEFINITION
     "dumpPacket" ? boolean # yes
@@ -25,12 +25,12 @@ type snmp_snmp_client_behaviour = {
 
 type snmp_snmp_snmpv3_settings = {
     "defSecurityName" ? string
-    "defSecurityLevel" ? string with match(SELF, '^(noAuthNoPriv|authNoPriv|authPriv)$')
+    "defSecurityLevel" ? choice('noAuthNoPriv', 'authNoPriv', 'authPriv)$')
     "defPassphrase" ? string
     "defAuthPassphrase" ? string
     "defPrivPassphrase" ? string
-    "defAuthType" ? string with match(SELF, '^(MD5|SHA)$')
-    "defPrivType" ? string with match(SELF, '^(DES|AES)$')
+    "defAuthType" ? choice('MD5', 'SHA)$')
+    "defPrivType" ? choice('DES', 'AES)$')
     "defContext" ? string
     "defSecurityModel" ? string
     "defAuthMasterKey" ? string # 0xHEXSTRING

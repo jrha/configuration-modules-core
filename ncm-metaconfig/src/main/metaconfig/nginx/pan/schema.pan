@@ -6,13 +6,13 @@ include 'pan/types';
     Data types for an nginx server, with proxy and SSL support
 }
 
-type cipherstring = string with match(SELF, "^(TLSv1|TLSv1.1|TLSv1.2)$")
+type cipherstring = choice('TLSv1', 'TLSv1.1', 'TLSv1.2)$')
     || error("Use a modern cipher suite, for Pete's sake!");
 
 type basic_ssl = {
     "options" ? string[]
     "requiressl" ? boolean
-    "verify_client" ? string with match(SELF, "^(require|none|optional|optional_no_ca)$")
+    "verify_client" ? choice('require', 'none', 'optional', 'optional_no_ca)$')
     "require" ? string
 };
 

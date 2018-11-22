@@ -49,7 +49,7 @@ type structure_altlogrotate_logrot = {
 
     'mail' ? type_email
     'nomail' ? boolean
-    'mailselect' ? string with match(SELF, '^(first|last)$')
+    'mailselect' ? choice('first', 'last)$')
 
     'olddir' ? string
     'noolddir' ? boolean
@@ -62,7 +62,7 @@ type structure_altlogrotate_logrot = {
     'taboo_replace' ? boolean
     'tabooext' ? string[]
 
-    'frequency' ? string with match(SELF, '^(daily|weekly|monthly)$')
+    'frequency' ? choice('daily', 'weekly', 'monthly)$')
 
     'scripts' ? structure_altlogrotate_scripts
 } with {

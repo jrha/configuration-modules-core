@@ -22,7 +22,7 @@ type syslog_facility = string with match(SELF,
 @documentation{
     syslog level to use when logging to syslog or the kernel log buffer
 }
-type syslog_level = string with match(SELF, '^(emerg|alert|crit|err|warning|notice|info|debug)$');
+type syslog_level = choice('emerg', 'alert', 'crit', 'err', 'warning', 'notice', 'info', 'debug)$');
 
 type ${project.artifactId}_skip = {
     "service" : boolean = false
@@ -32,7 +32,7 @@ type ${project.artifactId}_unit_architecture = string with match(SELF,
     '^(native|x86(-64)?|ppc(64)?(-le)?|ia64|parisc(64)?|s390x?|sparc(64)?)' +
     '|mips(-le)?|alpha|arm(64)?(-be)?|sh(64)?|m86k|tilegx|cris$');
 
-type ${project.artifactId}_unit_security = string with match(SELF, '^!?(selinux|apparmor|ima|smack|audit)$');
+type ${project.artifactId}_unit_security = choice('!?(selinux', 'apparmor', 'ima', 'smack', 'audit)$');
 
 type ${project.artifactId}_unit_virtualization = string with match(SELF,
     '^(0|1|vm|container|qemu|kvm|zvm|vmware|microsoft|oracle|xen' +
@@ -132,7 +132,7 @@ http://www.freedesktop.org/software/systemd/man/systemd.kill.html
 valid for [Service], [Socket], [Mount], or [Swap] sections
 }
 type ${project.artifactId}_unitfile_config_systemd_kill = {
-    'KillMode' ? string with match(SELF, '^(control-group|process|mixed|none)$')
+    'KillMode' ? choice('control-group', 'process', 'mixed', 'none)$')
     'KillSignal' ? string with match(SELF,
         '^SIG(HUP|INT|QUIT|ILL|ABRT|FPE|KILL|SEGV|PIPE|ALRM|TERM|USR[12]|CHLD|CONT|STOP|T(STP|TIN|TOU))$')
     'SendSIGHUP' ? boolean
@@ -146,7 +146,7 @@ valid for [Service], [Socket], [Mount], or [Swap] sections
 }
 type ${project.artifactId}_unitfile_config_systemd_exec = {
     'CPUAffinity' ? long[][] # start with empty list to reset
-    'CPUSchedulingPolicy' ? string with match(SELF, '^(other|batch|idle|fifo|rr)$')
+    'CPUSchedulingPolicy' ? choice('other', 'batch', 'idle', 'fifo', 'rr)$')
     'CPUSchedulingPriority' ? long(1..99) # 99 = highest
     'CPUSchedulingResetOnFork' ? boolean
     'Environment' ? string{}[] # start with empty list
@@ -175,7 +175,7 @@ type ${project.artifactId}_unitfile_config_systemd_exec = {
     'PrivateTmp' ? boolean
     'RootDirectory' ? string
     'StandardError' ? ${project.artifactId}_unitfile_config_systemd_exec_stdouterr
-    'StandardInput' ? string with match(SELF, '^(null|tty(-(force|fail))?|socket)$')
+    'StandardInput' ? choice('null', 'tty(-(force', 'fail))?', 'socket)$')
     'StandardOutput' ? ${project.artifactId}_unitfile_config_systemd_exec_stdouterr
     'SupplementaryGroups' ? defined_group[]
     'SyslogFacility' ? syslog_facility
@@ -210,11 +210,11 @@ type ${project.artifactId}_unitfile_config_service = {
     'ExecStopPost' ? string
     'GuessMainPID' ? boolean
     'NonBlocking' ? boolean
-    'NotifyAccess' ? string with match(SELF, '^(none|main|all)$')
+    'NotifyAccess' ? choice('none', 'main', 'all)$')
     'PIDFile' ? string with match(SELF, '^/')
     'PermissionsStartOnly' ? boolean
     'RemainAfterExit' ? boolean
-    'Restart' ? string with match(SELF, '^(no|on-(success|failure|abnormal|watchdog|abort)|always)$')
+    'Restart' ? choice('no', 'on-(success', 'failure', 'abnormal', 'watchdog', 'abort)', 'always)$')
     'RestartForceExitStatus' ? long[]
     'RestartPreventExitStatus' ? long[]
     'RestartSec' ? long(0..) # TODO default is 100ms, which can't be expressed like this
@@ -224,7 +224,7 @@ type ${project.artifactId}_unitfile_config_service = {
     'TimeoutSec' ? long(0..)
     'TimeoutStartSec' ? long(0..)
     'TimeoutStopSec' ? long(0..)
-    'Type' ? string with match(SELF, '^(simple|forking|oneshot|dbus|notify|idle)$')
+    'Type' ? choice('simple', 'forking', 'oneshot', 'dbus', 'notify', 'idle)$')
     'WatchdogSec' ? long(0..)
 } with {
     if(exists(SELF['Type']) && (SELF['Type'] == 'dbus') && (! exists(SELF['BusName']))) {
@@ -281,7 +281,7 @@ type ${project.artifactId}_unitfile = {
 #   234 -> multi-user
 #   5 -> graphical
 # for now limit the targets
-type ${project.artifactId}_target = string with match(SELF, "^(default|poweroff|rescue|multi-user|graphical|reboot)$");
+type ${project.artifactId}_target = choice('default', 'poweroff', 'rescue', 'multi-user', 'graphical', 'reboot)$');
 
 type ${project.artifactId}_unit_type = {
     "name" ? string # shortnames are ok; fullnames require matching type

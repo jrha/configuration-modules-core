@@ -3,7 +3,7 @@ declaration template metaconfig/snoopy/schema;
 include 'pan/types';
 
 type snoopy_filter_chain = {
-    'filter' : string with match(SELF, '^(exclude_(spawns_of|uid)|only_(root|tty|uid))$')
+    'filter' : choice('exclude_(spawns_of', 'uid)', 'only_(root', 'tty', 'uid))$')
     'arguments' ? string[]
 };
 
@@ -21,5 +21,5 @@ type service_snoopy = {
     'error_logging' ? boolean
     'syslog_facility' ? string with match(SELF, '^(LOG_)?(AUTH|AUTHPRIV|CRON|DAEMON|FTP|KERN|LOCAL[0-7]|LPR|MAIL|NEWS|SYSLOG|USER|UUCP)$')
     'syslog_ident' ? string with (! match(SELF, '\s'))
-    'syslog_level' ? string with match(SELF, '^(LOG_)?(EMERG|ALERT|CRIT|ERR|WARNING|NOTICE|INFO|DEBUG)$')
+    'syslog_level' ? choice('LOG_)?(EMERG', 'ALERT', 'CRIT', 'ERR', 'WARNING', 'NOTICE', 'INFO', 'DEBUG)$')
 };

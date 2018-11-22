@@ -86,7 +86,7 @@ type buoy_nodehash = buoy_node{} with {
 
 type buoy_group = {
     "description" : string
-    "type" : string with match(SELF, "^(STAR|MESH)")
+    "type" : choice('STAR', 'MESH)')
     "hauptnode" ? buoy_nodestring
     "nodes" : buoy_nodestring[]
     "include_senders" ? type_fqdn[]

@@ -19,7 +19,7 @@ type hnormalise_output_tcp = {
 };
 
 type hnormalise_connection_zeromq = {
-    "method": string with match(SELF, '^(pull|push)')
+    "method": choice('pull', 'push)')
     "host": string
     "port": long
 };

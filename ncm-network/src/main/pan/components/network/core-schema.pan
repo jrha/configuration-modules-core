@@ -206,9 +206,9 @@ type structure_interface = {
     "netmask" ? type_ip
     "broadcast" ? type_ip
     "driver" ? string
-    "bootproto" ? string with match(SELF, '^(static|bootp|dhcp|none)$')
+    "bootproto" ? choice('static', 'bootp', 'dhcp', 'none)$')
     "onboot" ? boolean
-    "type" ? string with match(SELF, '^(Ethernet|Bridge|Tap|xDSL|OVS(Bridge|Port|IntPort|Bond|Tunnel|PatchPort))$')
+    "type" ? choice('Ethernet', 'Bridge', 'Tap', 'xDSL', 'OVS(Bridge', 'Port', 'IntPort', 'Bond', 'Tunnel', 'PatchPort))$')
     "device" ? string
     "master" ? string
     "mtu" ? long
@@ -259,7 +259,7 @@ type structure_interface = {
     "ovs_opts" ? string # See ovs-vswitchd.conf.db(5) for documentation
     "ovs_patch_peer" ? string
     "ovs_tunnel_opts" ? string # See ovs-vswitchd.conf.db(5) for documentation
-    "ovs_tunnel_type" ? string with match(SELF, '^(gre|vxlan)$')
+    "ovs_tunnel_type" ? choice('gre', 'vxlan)$')
 
     "ipv4_failure_fatal" ? boolean
     "ipv6_autoconf" ? boolean

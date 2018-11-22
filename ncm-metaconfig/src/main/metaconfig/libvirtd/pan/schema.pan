@@ -101,7 +101,7 @@ type type_qemu_remote = {
 };
 
 type type_qemu_security = {
-    'security_driver' ? string with match(SELF, '^(none|selinux|apparmor)$')
+    'security_driver' ? choice('none', 'selinux', 'apparmor)$')
     'security_default_confined' ? boolean
     'security_require_confined' ? boolean
 };
@@ -159,7 +159,7 @@ type service_libvirtd = {
 sasl2 conf for libvirtd
 }
 type service_sasl2 = {
-    'mech_list' ? string with match(SELF, '^(digest-md5|gssapi)$')
+    'mech_list' ? choice('digest-md5', 'gssapi)$')
     'keytab' ? string = '/etc/libvirt/krb5.tab'
     'sasldb_path' ? string = '/etc/libvirt/passwd.db'
 };
@@ -192,7 +192,7 @@ type service_qemu = {
     'mac_filter' ? boolean
     'relaxed_acs_check' ? boolean
     'allow_disk_format_probing' ? boolean
-    'lock_manager' ? string with match(SELF, '^(lockd|sanlock)$')
+    'lock_manager' ? choice('lockd', 'sanlock)$')
     'max_queued' ? long (0..)
     'seccomp_sandbox' ? string
     'log_timestamp' ? boolean

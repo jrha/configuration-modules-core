@@ -2,7 +2,7 @@ declaration template metaconfig/beats/schema;
 
 include 'pan/types';
 
-type beats_output_logstash_ssl_protocol = string with match(SELF, '^(SSLvs|TLSv1.0|TLSv1.1|TLSv1.2)');
+type beats_output_logstash_ssl_protocol = choice('SSLvs', 'TLSv1.0', 'TLSv1.1', 'TLSv1.2)');
 
 @documentation{
     SSL settings for logstash output
@@ -15,7 +15,7 @@ type beats_output_logstash_ssl = {
     'insecure' ? boolean
     'cipher_suites' ? string[]
     'curve_types' ? string[]
-    'verification_mode' ? string with match(SELF, '^(none|full)')
+    'verification_mode' ? choice('none', 'full)')
     'supported_protocols' ? beats_output_logstash_ssl_protocol[]
 };
 
@@ -137,7 +137,7 @@ type beats_logging = {
     'to_files' ? boolean
     'files' ? beats_logging_files
     'selectors' ? beats_logging_selector[]
-    'level' ? string with match(SELF, '^(critical|error|warning|info|debug)$')
+    'level' ? choice('critical', 'error', 'warning', 'info', 'debug)$')
 };
 
 @documenation{
@@ -156,7 +156,7 @@ type beats_service = {
 type beats_filebeat_prospector_multiline = {
     'pattern' ? string
     'negate' ? boolean
-    'match' ? string with match(SELF, '^(after|before)$')
+    'match' ? choice('after', 'before)$')
     'max_lines' ? long(0..)
     'timeout' ? long(0..)
 };
@@ -169,7 +169,7 @@ type beats_filebeat_prospector = {
     'encoding' ? string with
     match(SELF,
     '^(plain|utf-8|utf-16be-bom|utf-16be|utf-16le|big5|gb18030|gbk|hz-gb-2312|euc-kr|euc-jp|iso-2022-jp|shift-jis)$')
-    'input_type' ? string with match(SELF, '^(log|stdin)$')
+    'input_type' ? choice('log', 'stdin)$')
     'exclude_lines' ? string[]
     'include_lines' ? string[]
     'exclude_files' ? string[]

@@ -93,7 +93,7 @@ type ccm_component = {
     @{If `profile` is not a URL, a profile url will be calculated from `base_url` and the local hostname.}
     'base_url' ? type_absoluteURI
     @{Format of the local database, must be `DB_File`, `CDB_File` or `GDBM_File`. Defaults to `GDBM_File`. }
-    'dbformat' ? string with match(SELF, "^(DB_File|CDB_File|GDBM_File)$")
+    'dbformat' ? choice('DB_File', 'CDB_File', 'GDBM_File)$')
     @{Extract typed data from JSON profiles}
     'json_typed' ? boolean
     @{Create the tabcompletion file (during profile fetch)}

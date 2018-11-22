@@ -10,7 +10,7 @@ type bacula_autochanger = {
 type bacula_device = {
     "Name" : string
     "Media_Type" : string
-    "Device_Type" : string with match(SELF,'^(File|Fifo)$')
+    "Device_Type" : choice('File', 'Fifo)$')
     "Random_Access" : boolean
     "Archive_Device" : string
     "Label_Media" : boolean

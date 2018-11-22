@@ -14,17 +14,17 @@ include 'components/authconfig/sssd/ipa';
 @{
     Valid SSSD providers.
 }
-type sssd_provider_string = string with match(SELF, "^(ldap|simple|local|permit|ipa|ad)$");
+type sssd_provider_string = choice('ldap', 'simple', 'local', 'permit', 'ipa', 'ad)$');
 
 @{
     Valid SSSD auth providers.
 }
-type sssd_auth_provider_string = string with match(SELF, "^(ldap|krb5|local|permit|ipa|ad)$");
+type sssd_auth_provider_string = choice('ldap', 'krb5', 'local', 'permit', 'ipa', 'ad)$');
 
 @{
     Valid LDAP schema types.
 }
-type sssd_ldap_schema_string = string with match(SELF, "^(rfc2307|rfc2307bis|ipa|ad)$");
+type sssd_ldap_schema_string = choice('rfc2307', 'rfc2307bis', 'ipa', 'ad)$');
 
 @{
     Simple access provider for SSSD.  See the sssd-simple man page.
@@ -37,7 +37,7 @@ type authconfig_sssd_simple = {
 };
 
 
-type sssd_service = string with match(SELF, "^(nss|pam|sudo|autofs|ssh|pac)$");
+type sssd_service = choice('nss', 'pam', 'sudo', 'autofs', 'ssh', 'pac)$');
 
 type sssd_global = {
     "debug_level" ? long

@@ -40,11 +40,11 @@ type postgresql_hba_user = string with match(SELF, '^(\+|@)?\w+$');
 
 
 type postgresql_hba = {
-    "host" : string with match(SELF, "^(local|host((no)?ssl)?)$")
+    "host" : choice('local', 'host((no)?ssl)?)$')
     "database" : postgresql_hba_database[]
     "user" : postgresql_hba_user[]
     "address" ? string with postgresql_is_hba_address(SELF)
-    "method" : string with match(SELF, "^(trust|reject|md5|password|gss|sspi|krb5|ident|peer|pam|ldap|radius|cert)$")
+    "method" : choice('trust', 'reject', 'md5', 'password', 'gss', 'sspi', 'krb5', 'ident', 'peer', 'pam', 'ldap', 'radius', 'cert)$')
     "options" ? string{}
 };
 

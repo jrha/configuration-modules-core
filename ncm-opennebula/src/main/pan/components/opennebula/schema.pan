@@ -21,7 +21,7 @@ type opennebula_mysql_db = {
 
 type opennebula_db = {
     include opennebula_mysql_db
-    "backend" : string with match(SELF, "^(mysql|sqlite)$")
+    "backend" : choice('mysql', 'sqlite)$')
 } with is_consistent_database(SELF);
 
 @documentation{
@@ -306,7 +306,7 @@ type for vnet ars specific attributes.
 type and size are mandatory
 }
 type opennebula_ar = {
-    "type" : string with match(SELF, "^(IP4|IP6|IP4_6|ETHER)$")
+    "type" : choice('IP4', 'IP6', 'IP4_6', 'ETHER)$')
     "ip" ? type_ipv4
     "size" : long (1..)
     "mac" ? type_hwaddr

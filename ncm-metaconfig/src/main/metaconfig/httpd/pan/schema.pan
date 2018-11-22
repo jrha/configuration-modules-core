@@ -44,9 +44,9 @@ type httpd_option_plusminus_none = string[] with {
     true;
 };
 
-type httpd_gssapi_credstore = string with match(SELF, '^((client_)?keytab|ccache:(FILE|DIR|KCM|KEYRING|MEMORY)):');
+type httpd_gssapi_credstore = choice('(client_)?keytab', 'ccache:(FILE', 'DIR', 'KCM', 'KEYRING', 'MEMORY)):');
 
-type httpd_gssapi_allowed_mech = string with match(SELF, '^(krb5|iakerb|ntlmssp)');
+type httpd_gssapi_allowed_mech = choice('krb5', 'iakerb', 'ntlmssp)');
 
 @documenation{
     Configure mod_gssapi, the mod_krb_auth replacement
@@ -133,7 +133,7 @@ type httpd_log_format = {
 type httpd_log = {
     "error" ? string
     "transfer" ? string
-    "level" ? string with match(SELF, "^(debug|info|notice|warn|error|crit|alert|emerg)$")
+    "level" ? choice('debug', 'info', 'notice', 'warn', 'error', 'crit', 'alert', 'emerg)$')
     "format" ? httpd_log_format[]
     "custom" ? httpd_log_custom[]
 };
@@ -180,7 +180,7 @@ type httpd_ssl_nss_shared = {
     "passphrasehelper" ? string # eg /usr/sbin/nss_pcache
     "sessioncachetimeout" ? long
     "randomseed" ? string[][]
-    "verifyclient" ? string with match(SELF, "^(require|none|optional|optional_no_ca)$")
+    "verifyclient" ? choice('require', 'none', 'optional', 'optional_no_ca)$')
     "require" ? string
     "options" ? httpd_option_plusminus_none
     "requiressl" ? boolean
@@ -211,9 +211,9 @@ type httpd_ssl_global = {
 
     "verifydepth" ? long
 
-    "usestapling" ? string with match(SELF, '^(on|off)$')
+    "usestapling" ? choice('on', 'off)$')
     "staplingrespondertimeout" ? long
-    "staplingreturnrespondererrors" ? string with match(SELF, '^(on|off)$')
+    "staplingreturnrespondererrors" ? choice('on', 'off)$')
     "staplingcache" ? string with match(SELF, '^shmcb:/var/run/ocsp\([0-9]+\)$')
 };
 
@@ -246,18 +246,18 @@ type httpd_ssl_vhost = {
     include httpd_ssl_nss_vhost
     "protocol" : httpd_sslprotocol[] = list("TLSv1")
     "ciphersuite" : httpd_ciphersuite[] = list("TLSv1")
-    "honorcipherorder" ? string with match(SELF, '^(on|off)$')
+    "honorcipherorder" ? choice('on', 'off)$')
 };
 
-type httpd_directory_allowoverride = string with match(SELF, '^(All|None|Options|FileInfo|AuthConfig|Limit)$');
-type httpd_acl_order = string with match(SELF, "^(allow|deny)$");
+type httpd_directory_allowoverride = choice('All', 'None', 'Options', 'FileInfo', 'AuthConfig', 'Limit)$');
+type httpd_acl_order = choice('allow', 'deny)$');
 
 type httpd_acl = {
     "order" ? httpd_acl_order[]
     "allow" ? type_network_name[]
     "deny" ? type_network_name[]
     "allowoverride" ? httpd_directory_allowoverride[]
-    "satisfy" ? string with match(SELF, "^(All|Any)$")
+    "satisfy" ? choice('All', 'Any)$')
 };
 
 @documentation{
@@ -265,7 +265,7 @@ type httpd_acl = {
 
 }
 type httpd_authz = {
-    "all" ? string with match(SELF, '^(granted|denied)$')
+    "all" ? choice('granted', 'denied)$')
     "valid-user" ? string # value of string is ignored
     "user" ? string[]
     "group" ? string[]
@@ -318,7 +318,7 @@ type httpd_proxy_directive = {
 
 type httpd_auth_require = {
     # require type who.join(' ')
-    "type" : string with match(SELF, '^(valid-user|user|group|shibboleth|all)$')
+    "type" : choice('valid-user', 'user', 'group', 'shibboleth', 'all)$')
     "who" ? string[]
 };
 
@@ -327,7 +327,7 @@ type httpd_name_virtual_host = {
     "port" ? type_port
 };
 
-type httpd_auth_type = string with match(SELF, "^(Basic|Kerberos|Shibboleth|GSSAPI|openid-connect)$");
+type httpd_auth_type = choice('Basic', 'Kerberos', 'Shibboleth', 'GSSAPI', 'openid-connect)$');
 
 type httpd_auth = {
     "name": string
@@ -369,11 +369,11 @@ type httpd_rewrite_rule = {
 
 type httpd_rewrite_map = {
     "name" : string
-    "type" : string with match(SELF, '^(txt|rnd|dbm|int|prg|dbd|fastdbd)$')
+    "type" : choice('txt', 'rnd', 'dbm', 'int', 'prg', 'dbd', 'fastdbd)$')
     "source" : string
 };
 
-type httpd_rewrite_option = string with match(SELF, '^(Inherit|InheritBefore|AllowNoSlash|AllowAnyURI|MergeBase)$');
+type httpd_rewrite_option = choice('Inherit', 'InheritBefore', 'AllowNoSlash', 'AllowAnyURI', 'MergeBase)$');
 
 type httpd_rewrite = {
     "engine" : boolean = true
@@ -593,7 +593,7 @@ type httpd_global_system = {
     "adddefaultcharset" : string = "UTF-8"
 
     "limitrequestfieldsize" ? long
-    "traceenable" ? string with match(SELF, '^(on|off|extended)$')
+    "traceenable" ? choice('on', 'off', 'extended)$')
 };
 
 type httpd_ifmodule_parameters = {
@@ -615,7 +615,7 @@ type httpd_ifmodule_parameters = {
     "maxsparethreads" ? long
     "threadsperchild" ? long
 
-    "userdir" ? string with match(SELF, "^(disabled|public_html)$")
+    "userdir" ? choice('disabled', 'public_html)$')
 
     "davlockdb" ? string
 

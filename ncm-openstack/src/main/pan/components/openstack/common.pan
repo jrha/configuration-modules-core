@@ -5,11 +5,11 @@
 
 declaration template components/openstack/common;
 
-type type_storagebackend = string with match(SELF, '^(file|http|swift|rbd|sheepdog|cinder|vmware)$');
+type type_storagebackend = choice('file', 'http', 'swift', 'rbd', 'sheepdog', 'cinder', 'vmware)$');
 
-type type_neutrondriver = string with match(SELF, '^(local|flat|vlan|gre|vxlan|geneve)$');
+type type_neutrondriver = choice('local', 'flat', 'vlan', 'gre', 'vxlan', 'geneve)$');
 
-type type_neutronextension = string with match(SELF, '^(qos|port_security)$');
+type type_neutronextension = choice('qos', 'port_security)$');
 
 
 @documentation {

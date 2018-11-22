@@ -7,7 +7,7 @@ type lmod_prop = {
     "short" : string[]
     "long" : string[]
     "doc" : string
-    "color" ? string with match(SELF, '^(black|red|green|yellow|blue|magenta|cyan|white)$')
+    "color" ? choice('black', 'red', 'green', 'yellow', 'blue', 'magenta', 'cyan', 'white)$')
     @{override the key with name joined using ':'}
     "names" ? string[]
 };

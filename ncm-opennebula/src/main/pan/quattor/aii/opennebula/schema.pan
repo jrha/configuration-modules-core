@@ -213,9 +213,9 @@ type opennebula_vmtemplate = {
     @{Set graphics to export VM graphical display (VNC is used by default)}
     "graphics" : string = 'VNC' with match (SELF, '^(VNC|SDL|SPICE)$')
     @{Select the cache mechanism for your disks. (by default is set to none)}
-    "diskcache" ? string with match(SELF, '^(default|none|writethrough|writeback|directsync|unsafe)$')
+    "diskcache" ? choice('default', 'none', 'writethrough', 'writeback', 'directsync', 'unsafe)$')
     @{specific image mapping driver. qcow2 is not supported by Ceph storage backends}
-    "diskdriver" ? string with match(SELF, '^(raw|qcow2)$')
+    "diskdriver" ? choice('raw', 'qcow2)$')
     "permissions" ? opennebula_permissions
     @{Set pci list values to enable PCI Passthrough.
     PCI passthrough section is also generated based on /hardware/cards/<card_type>/<interface>/pci values.}

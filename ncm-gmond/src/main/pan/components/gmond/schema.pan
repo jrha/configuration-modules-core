@@ -6,11 +6,11 @@ include 'pan/types';
 type gmond_acl_access = {
     "ip" : type_ip
     "mask" : long(0..32)
-    "action" : string with match(SELF, "^(allow|deny)$")
+    "action" : choice('allow', 'deny)$')
 };
 
 type gmond_acl = {
-    "default" : string with match(SELF, "^(allow|deny)$")
+    "default" : choice('allow', 'deny)$')
     "access" : gmond_acl_access
 };
 

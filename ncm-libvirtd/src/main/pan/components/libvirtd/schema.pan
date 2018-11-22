@@ -27,10 +27,10 @@ type structure_libvirtd_socket = {
 };
 
 type structure_libvirtd_authn = {
-    'auth_unix_ro' ? string with match(SELF, 'none|sasl|polkit') # default anyone
-    'auth_unix_rw' ? string with match(SELF, 'none|sasl|polkit') # default polkit
-    'auth_tcp' ? string with match(SELF, 'none|sasl') # should be 'sasl' for production
-    'auth_tls' ? string with match(SELF, 'none|sasl')
+    'auth_unix_ro' ? choice('none', 'sasl', 'polkit') # default anyone
+    'auth_unix_rw' ? choice('none', 'sasl', 'polkit') # default polkit
+    'auth_tcp' ? choice('none', 'sasl') # should be 'sasl' for production
+    'auth_tls' ? choice('none', 'sasl')
 };
 
 type structure_libvirtd_tls = {

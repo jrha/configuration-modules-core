@@ -7,7 +7,7 @@ type limits_conf_item = string with match(SELF,
 
 type limits_conf_entry = {
     'domain' : string
-    'type' : string with match(SELF, '^(soft|hard|-)$')
+    'type' : choice('soft', 'hard', '-)$')
     'item' : limits_conf_item
     'value' : long(-1..)
 };

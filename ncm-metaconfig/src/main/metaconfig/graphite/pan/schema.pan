@@ -35,7 +35,7 @@ type carbon_aggregation_rule = {
     #   output_template (frequency) = method input_pattern
     "output" : string
     "frequency" : string
-    "method" : string with match(SELF, "^(sum|avg)$")
+    "method" : choice('sum', 'avg)$')
     "input" : string
 };
 

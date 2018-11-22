@@ -49,7 +49,7 @@ type carbon_relay_ng_addroute_dest = {
     route
 }
 type carbon_relay_ng_addroute = {
-    'type' : string with match(SELF, '^(sendAllMatch|sendFirstMatch)$')
+    'type' : choice('sendAllMatch', 'sendFirstMatch)$')
     'key' : string
     'opts' ? carbon_relay_ng_addroute_opts
     'dest' : carbon_relay_ng_addroute_dest[]

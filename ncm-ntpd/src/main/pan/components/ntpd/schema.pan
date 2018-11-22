@@ -145,11 +145,11 @@ type ntpd_statistics = {
     Monitoring/statistics options, see ntp_mon manpage.
 }
 type ntpd_filegen = {
-    "name" : string with match(SELF, '^(clock|crypto|loop|peer|raw|sys)stats$')
+    "name" : choice('clock', 'crypto', 'loop', 'peer', 'raw', 'sys)stats$')
     "file" : string
-    "type" ? string with match(SELF, '^(none|pid|day|week|month|year|age)$')
+    "type" ? choice('none', 'pid', 'day', 'week', 'month', 'year', 'age)$')
     "linkornolink" ? string with match(SELF, '^(no)?link$')
-    "enableordisable" ? string with match(SELF, '^(en|dis)able$')
+    "enableordisable" ? choice('en', 'dis)able$')
 };
 
 type ${project.artifactId}_component = {

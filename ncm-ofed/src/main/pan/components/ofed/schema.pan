@@ -131,7 +131,7 @@ type component_ofed_openib = {
 type component_ofed_partition_property = {
     @{Port GUID}
     'guid' : string with match(SELF, '^(ALL(_(SWITCHES|V?CAS|ROUTERS))?|SELF|0x[0-9a-fA-F]{1,10})$')
-    'membership' ? string with match(SELF, '^(limited|full|both)$')
+    'membership' ? choice('limited', 'full', 'both)$')
 };
 
 @documentation{

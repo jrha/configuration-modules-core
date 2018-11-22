@@ -21,12 +21,12 @@ type structure_component_gmetad = {
     include structure_component
     "debug_level" ? long(0..)
     "data_source" : structure_component_gmetad_data_source[]
-    "scalability" ? string with match(SELF, "true|false")
+    "scalability" ? choice('true', 'false')
     "gridname" ? string
     "authorithy" ? type_absoluteURI
     "trusted_hosts" ? type_hostname[]
-    "all_trusted" ? string with match(SELF, "true|false")
-    "setuid" ? string with match(SELF, "true|false")
+    "all_trusted" ? choice('true', 'false')
+    "setuid" ? choice('true', 'false')
     "setuid_username" ? string
     "xml_port" ? type_port
     "interactive_port" ? type_port

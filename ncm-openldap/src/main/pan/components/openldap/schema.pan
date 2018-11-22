@@ -117,8 +117,8 @@ type tls_options = {
     "CertificateKeyFile" ? string
     "DHParamFile" ? string
     "RandFile" ? string
-    "VerifyClient" ? string with match(SELF, "^(never|allow|try|hard|demand|true)$")
-    "CRLCheck" ? string with match(SELF, "^(none|peer|all)$")
+    "VerifyClient" ? choice('never', 'allow', 'try', 'hard', 'demand', 'true)$')
+    "CRLCheck" ? choice('none', 'peer', 'all)$')
     "CRLFile" ? string
 };
 
@@ -197,10 +197,10 @@ type ldap_replica_cfg = {
     "rid" : long(0..999)
     "provider" : type_absoluteURI
     "searchbase" : string
-    "type" ? string with match(SELF, "^(refreshOnly|refreshAndPersist)$")
+    "type" ? choice('refreshOnly', 'refreshAndPersist)$')
     "interval" ? string
     "retry" ? ldap_replica_retries[]
-    "scope" ? string with match(SELF, "^(sub|one|base|subord)$")
+    "scope" ? choice('sub', 'one', 'base', 'subord)$')
     "attrs" ? string[]
     "attrsonly" ? boolean
     "sizelimit" ? long
@@ -208,7 +208,7 @@ type ldap_replica_cfg = {
     "schemachecking" : boolean = false
     "network-timeout" ? long
     "timeout" ? long
-    "bindmethod" ? string with match(SELF, "^(simple|sasl)$")
+    "bindmethod" ? choice('simple', 'sasl)$')
     "binddn" ? string
     "saslmech" ? string
     "authcid" ? string
@@ -217,18 +217,18 @@ type ldap_replica_cfg = {
     "realm" ? string
     "secprops" ? string
     "keepalive" ? string
-    "starttls" ? string with match(SELF, "^(yes|critical)$")
+    "starttls" ? choice('yes', 'critical)$')
     "tls_cert" ? string
     "tls_key" ? string
     "tls_cacert" ? string
     "tls_cacertdir" ? string
-    "tls_reqcert" ? string with match(SELF, "^(never|allow|try|demand)$")
+    "tls_reqcert" ? choice('never', 'allow', 'try', 'demand)$')
     "tls_ciphersuite" ? string
-    "tls_crlcheck" ? string with match(SELF, "^(none|peer|all)$")
+    "tls_crlcheck" ? choice('none', 'peer', 'all)$')
     "suffixmassage" ? string
     "logbase" ? string
     "logfilter" ? string
-    "syncdata" ? string with match(SELF, "^(default|accesslog|changelog)$")
+    "syncdata" ? choice('default', 'accesslog', 'changelog)$')
     "filter" ? string
 };
 

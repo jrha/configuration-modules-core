@@ -7,11 +7,11 @@ type elasticsearch_bootstrap = {
 };
 
 type elasticsearch_thread_search = {
-    "type" : string with match(SELF, "^(fixed|cached|blocking)$")
+    "type" : choice('fixed', 'cached', 'blocking)$')
     "size" : long(0..)
     "min" ? long
     "queue_size" ? long(0..)
-    "reject_policy" ? string with match(SELF, "^(caller|abort)$")
+    "reject_policy" ? choice('caller', 'abort)$')
 };
 
 @documentation{

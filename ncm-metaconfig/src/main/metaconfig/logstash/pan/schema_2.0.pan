@@ -19,9 +19,9 @@ type logstash_ssl = {
 
 type logstash_conditional_expression = {
     # [join] [[left] test] right (eg: and left > right; ! right;)
-    "join" ? string with match(SELF, '^(and|or|nand|xor)$')
+    "join" ? choice('and', 'or', 'nand', 'xor)$')
     "left" : string
-    "test" ? string with match(SELF, '^(==|!=|<|>|<=|>=|=~|!~|in|not in|!)$')
+    "test" ? choice('==', '!=', '<', '>', '<=', '>=', '=~', '!~', 'in', 'not in', '!)$')
     "right" ? string
 };
 
@@ -43,7 +43,7 @@ type logstash_plugin_common = {
 };
 
 # list not complete at all
-type logstash_codec_charset = string with match(SELF, "^(UTF-8|locale|external|filesystem|internal)$");
+type logstash_codec_charset = choice('UTF-8', 'locale', 'external', 'filesystem', 'internal)$');
 
 type logstash_codec_common = {
     # there are codecs without any values to set. this should stay empty?
@@ -83,7 +83,7 @@ type logstash_input_file = {
     "sincedb_path" ? string
     "sincedb_write_interval" ? long(1..)
     "stat_interval" : long(1..) = 1
-    "start_position" ? string with match(SELF, '^(beginning|end)$')
+    "start_position" ? choice('beginning', 'end)$')
 };
 
 @{ Collecting from tcp }
@@ -195,7 +195,7 @@ type logstash_filter_drop = {
     "periodic_flush" ? boolean
 };
 
-type logstash_filter_mutate_convert = string with match(SELF, '^(integer|float|string|boolean)$');
+type logstash_filter_mutate_convert = choice('integer', 'float', 'string', 'boolean)$');
 
 type logstash_filter_mutate = {
     include logstash_filter_plugin_common

@@ -442,9 +442,18 @@ sub configured_units
                 $self->error("Unitfile configuration failed, skipping the unit ", $self->unit_text($detail));
                 next;
             } elsif ($changed) {
-                $self->verbose("Going to issue conditional restart for $detail->{name} due to changed unitfile");
-                push(@tryrestart, $detail->{name});
-            };
+		$ufile->{config}->reset;
+		my $utree = $ufile->{config}->getTree;
+		# This is incomplete, because the RefuseManual* options may come from
+		# unit fragments not managed via templates. But $unit_cache does not seem
+		# to be initialized here, so we cannot check "systemctl show" data easily.
+                if ($utree->{unit}->{RefuseManualStop} || $utree->{unit}->{RefuseManualStart}) {
+                    $self->verbose("$detail->{name} is configured to disallow manual restart, skip");
+                } else {
+                    $self->verbose("Going to issue conditional restart for $detail->{name} due to changed unitfile");
+                    push(@tryrestart, $detail->{name});
+                }
+            }
 
             if ($ufile->{only}) {
                 $self->info("Only unitfile configuration for ", $self->unit_text($detail));

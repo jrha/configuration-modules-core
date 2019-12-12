@@ -34,9 +34,7 @@ client_max_body_size [% h.client_max_body_size %];
 [%-             INCLUDE metaconfig/nginx/proxy/path.tt path=p %]
 [%          END %]
 [%-         FOREACH i IN h.server %]
-server {
-[%          INCLUDE metaconfig/nginx/server.tt srv=i FILTER indent %]
-}
+[%              INCLUDE metaconfig/nginx/server.tt server=i FILTER indent %]
 [%          END %]
 [%      END %]
 }

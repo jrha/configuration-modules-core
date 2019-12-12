@@ -1,18 +1,20 @@
-listen [% srv.listen.addr %][% " default" IF srv.listen.default -%]
- [% "ssl" IF srv.listen.ssl %];
-[% FOREACH i IN srv.includes %]
-include [% i %];
+server {
+    listen [% server.listen.addr %][% " default" IF server.listen.default -%]
+[% "ssl" IF server.listen.ssl %];
+[% FOREACH i IN server.includes %]
+    include [% i %];
 [% END -%]
-server_name [% srv.name.join(" ") %];
-[% FOREACH e IN srv.error_page -%]
-error_page [% e.error_codes.join(" ") %] [% e.file %];
+    server_name [% server.name.join(" ") %];
+[% FOREACH e IN server.error_page -%]
+    error_page [% e.error_codes.join(" ") %] [% e.file %];
 [% END -%]
-[%- IF srv.ssl %]
-[%      INCLUDE metaconfig/nginx/ssl.tt ssl=srv.ssl %]
+[%- IF server.ssl %]
+[%      INCLUDE metaconfig/nginx/ssl.tt ssl=server.ssl %]
 [% END -%]
-[%- FOREACH l IN srv.location %]
+[%- FOREACH l IN server.location %]
 [%      INCLUDE metaconfig/nginx/location.tt location=l %]
 [% END -%]
-[%- IF srv.return %]
-[%      INCLUDE metaconfig/nginx/return.tt data=srv.return %]
+[%- IF server.return %]
+    [% INCLUDE metaconfig/nginx/return.tt data=server.return %]
 [% END -%]
+}

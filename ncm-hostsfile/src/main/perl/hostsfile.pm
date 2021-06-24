@@ -28,19 +28,6 @@ Returns error in case of a failure.
 
 =back
 
-=head1 RESOURCES
-
-=over 4
-
-=item * C<< /system/network/domainname >>
-
-When specifying hosts within the entries nlist, if a hostname is not FQDN
-and there are no aliases defined, then an alias will be automatically
-created using an FQDN formed by joining the shortname with
-this domain.
-
-=back
-
 =cut
 
 package NCM::Component::hostsfile;
@@ -69,13 +56,6 @@ sub Configure {
     my $val;            # value (temporary) retrieved for a given config element
     my $reload    = 0;  # shall we reload the config file?
     my $errorflag = 0;  # fatal error
-    my $domainname;
-
-    my $domainpath = "/system/network/domainname";
-    if ( $config->elementExists($domainpath) ) {
-        $re         = $config->getElement("$domainpath");
-        $domainname = $re->getValue();
-    }
 
     if ($config->elementExists("$valPath/takeover")) {
         $allow_takeover = $config->getElement("$valPath/takeover")->getValue();
@@ -175,12 +155,7 @@ sub Configure {
             }
             $line = "$ipaddr\t$hename";
             if ( !defined($aliases) ) {
-                $aliases = "";
-                if ( $hename =~ m/([^.]+)[.].*/ ) {
-                    $aliases = $1;
-                } elsif ( defined($domainname) ) {
-                    $aliases = $hename . "." . $domainname;
-                }
+                $aliases = $hename;
             }
             $line .= " $aliases";
             $line = sprintf( "%-40s # NCM", $line );

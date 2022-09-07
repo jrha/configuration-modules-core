@@ -1,0 +1,44 @@
+Base test for config
+---
+/etc/telegraf.ini
+---
+[global_tags]
+    model = test_model
+    personality = test_personality
+
+[agent]
+    interval = "60s"
+    round_interval = true
+
+    metric_buffer_limit = 5000
+    flush_buffer_when_full = true
+
+    collection_jitter = "0s"
+
+    flush_interval = "300s"
+    flush_jitter = "60s"
+
+    debug = false
+    quiet = false
+    hostname = ""
+    omit_hostname = false
+
+[[outputs.influxdb]]
+    urls = ["http://influxdb01.example.org:8086"]
+    database = "testnodes"
+    precision = "s"
+
+    timeout = "5s"
+    username = "write_testnodes"
+    password = "test_password"
+
+    skip_database_creation = true
+
+[[inputs.cpu]]
+    percpu = false
+    totalcpu = true
+    fielddrop = ["time_*"]
+
+[[inputs.disk]]
+    mount_points = ["/", "/pool"]
+    ignore_fs = ["tmpfs", "devtmpfs"]

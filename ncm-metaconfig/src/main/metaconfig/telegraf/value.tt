@@ -3,9 +3,11 @@
 [%- ELSIF CCM.is_list(value) -%]
 [ 
 [%     FOREACH item IN value -%]
-[%         INCLUDE 'metaconfig/telegraf/value.tt' value=item _ ',' FILTER indent -%]
-[%-    END -%]
+[%         FILTER indent -%]
+[%             INCLUDE 'metaconfig/telegraf/value.tt' value=item -%],
+[%         END -%]
+[%     END -%]
 ]
-[%- ELSE -%]
-[%-     value.is_string ? '"' _ value _ '"' : value -%]
-[% END %]
+[%  ELSE -%]
+[%     value.is_string ? '"' _ value _ '"' : value %]
+[%- END -%]

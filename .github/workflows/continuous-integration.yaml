@@ -9,9 +9,12 @@ jobs:
     steps:
     - name: Checkout code
       uses: actions/checkout@v3
-    - name: Determine hash for caching key
-      id: cachekeystep
-      run: echo "pomcachekey=${{ hashFiles('**/pom.xml') }}" >> $GITHUB_ENV
+    - name: Set up JDK 11 for x64
+      uses: actions/setup-java@v3
+      with:
+        distribution: 'temurin'
+        java-version: '17'
+        cache: maven
     - name: set up dependencies
       run: |
         dnf -y install dnf-plugins-core
@@ -23,7 +26,7 @@ jobs:
         # work, but this is a quick way of pulling in a lot of required dependencies.
         # Surprisingly `which` is not installed by default and panc depends on it.
         # libselinux-utils is required for /usr/sbin/selinuxenabled
-        dnf install -y maven which panc ncm-lib-blockdevices \
+        dnf install -y which panc ncm-lib-blockdevices \
           ncm-ncd git libselinux-utils sudo perl-Crypt-OpenSSL-X509 \
           perl-Data-Compare perl-Date-Manip perl-File-Touch perl-JSON-Any \
           perl-Net-DNS perl-Net-FreeIPA perl-Net-OpenNebula \
@@ -39,20 +42,11 @@ jobs:
         wget -O template-library-core-master.tar.gz https://codeload.github.com/quattor/template-library-core/tar.gz/master
         tar -xvzf template-library-core-master.tar.gz
         cd -
-    - name: Cache Maven packages
-      uses: actions/cache@v3
-      with:
-        path: /tmp/m2
-        key: ${{ runner.os }}-m2-${{ env.pomcachekey }}
-        restore-keys: ${{ runner.os }}-m2-
     - name: run tests
       run: |
-        # make sure it exists before chown
-        mkdir -p /tmp/m2
-        chown -R nobody:nobody . /tmp/m2
         # we have to run as a non-root user to pass the spma tests
         # secondly, we first download all maven dependencies and then run the tests because it fails with hanging downloads otherwise.
+        mvn validate
         runuser --shell /bin/bash --preserve-environment --command "source /usr/bin/mvn_test.sh && mvn_run \"dependency:resolve $MVN_ARGS\" && mvn_test" nobody
       env:
         QUATTOR_TEST_TEMPLATE_LIBRARY_CORE: /tmp/template-library-core-master
-        MVN_ARGS: -Dmaven.repo.local=/tmp/m2

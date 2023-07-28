@@ -1,0 +1,3 @@
+[% FOREACH pair IN data.pairs -%]
+[%-     pair.key %] [% pair.value %] 
+[%- END -%]

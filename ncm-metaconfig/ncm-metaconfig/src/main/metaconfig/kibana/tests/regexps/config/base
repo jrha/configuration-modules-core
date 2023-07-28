@@ -1,0 +1,9 @@
+Base test for config
+---
+/etc/kibana/kibana.yml
+---
+^---$
+^elasticsearch:$
+^  hosts: http://mysupersecret.host.domain:9200$
+^  serviceAccountToken: token$
+^  ssl.verificationMode: none$

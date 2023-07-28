@@ -1,0 +1,11 @@
+Package: spma
+Version: 16.6.0-rc7-SNAPSHOT-d3d6f5d.1470155947
+License: Apache-2 and EUDatagrid
+Vendor: quattor.org
+Architecture: all
+Maintainer: Quattor Discuss <quattor-discuss@lists.sourceforge.net>
+Installed-Size: 48
+Section: admin
+Priority: extra
+Homepage: https://www.quattor.com
+Description: NCM SPMA configuration component

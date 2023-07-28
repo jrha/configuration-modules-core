@@ -1,0 +1,16 @@
+b69f91a6a356af236bef4847b9105da6  usr/sbin/spma
+86519a1fdd59aff64cf70a9ef892640d  usr/share/doc/pan/components/spma/apt/config.pan
+2e4d11f2d9c7df61083d13a4b8e07727  usr/share/doc/pan/components/spma/apt/schema.pan
+c2026867d9ef4101db3f47aef59b1ea3  usr/share/doc/pan/components/spma/config-common.pan
+ddf99a6f3c866037fe2169d144dd81a1  usr/share/doc/pan/components/spma/config.pan
+f673a3e6a4db594d9df5dc50f3988115  usr/share/doc/pan/components/spma/functions.pan
+961c2a7d8a746b1e83d226f26f7ac145  usr/share/doc/pan/components/spma/repository_cleanup.pan
+b7764918794f4198850ce1609950c043  usr/share/doc/pan/components/spma/schema.pan
+03b0085ae4806f827e8ba97ba3e5a532  usr/share/doc/pan/components/spma/software.pan
+98024c9a8c789343681154acf7ea4ced  usr/share/man/man8/NCM::Component::spma.8.gz
+56c518df4dc3e5c2d3927895639223a8  usr/share/man/man8/NCM::Component::spma::apt.8.gz
+fe9d1a47df7c1825f1af4caf59e2aa75  usr/share/man/man8/spmarun.8.gz
+0d6bb9e884f14f855643ac77a37cf6e1  usr/share/perl5/NCM/Component/spma/apt.pm
+5710212ad6a7e1f853bbfbb81b3c1d5f  usr/share/perl5/NCM/Component/spma.pm
+4afb957424c7f44a9816228d9cc8974e  usr/share/templates/quattor/spma/apt-source.tt
+526882e2884341a9d6f26cf1569e7337  usr/share/templates/quattor/spma/repository.tt

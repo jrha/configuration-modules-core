@@ -3,7 +3,5 @@
 
 [agent]
 [% INCLUDE 'metaconfig/telegraf/table.tt' table=agent FILTER indent%]
-
-[%- INCLUDE 'metaconfig/telegraf/nested_array_of_tables.tt' name='inputs' nest=inputs %]
-
-[%- INCLUDE 'metaconfig/telegraf/nested_array_of_tables.tt' name='outputs' nest=outputs ~%]
+[% INCLUDE 'metaconfig/telegraf/nested_array_of_tables.tt' name='inputs' nest=inputs %]
+[% INCLUDE 'metaconfig/telegraf/nested_array_of_tables.tt' name='outputs' nest=outputs ~%]

@@ -8,6 +8,6 @@
 [%          END -%]
 [%      END -%]
 ]
-[%  ELSE -%]
+[%-  ELSE -%]
 [%-     value.is_string ? '"' _ value _ '"' : value -%]
-[%- END -%]
+[%-  END -%]

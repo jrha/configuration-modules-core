@@ -6,7 +6,7 @@ use Test::Quattor qw(simple);
 use NCM::Component::sysctl;
 use Test::MockModule;
 
-$CAF::Object::NoAction = 1;
+#$CAF::Object::NoAction = 1;
 
 my $mock = Test::MockModule->new('NCM::Component::sysctl');
 

@@ -24,7 +24,7 @@ Test the configure() method.
 my $cmp = NCM::Component::sysctl->new('sysctl');
 my $cfg = get_config_for_profile('simple');
 my $testfile = "/etc/sysctl.d/50-quattor.conf";
-my $testcmd = "/sbin/sysctl -e -p $testfile";
+my $testcmd = "/usr/sbin/sysctl -e -p $testfile";
 
 is($cmp->Configure($cfg), 1, "Configure succeeds");
 my $fh = get_file($testfile);

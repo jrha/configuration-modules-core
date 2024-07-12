@@ -7,7 +7,6 @@ use Test::More;
 use Test::Quattor qw(simple);
 use NCM::Component::sysctl;
 use Test::MockModule;
-use CAF::Object;
 
 $CAF::Object::NoAction = 1;
 

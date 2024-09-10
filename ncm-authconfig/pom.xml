@@ -10,7 +10,7 @@
     <groupId>org.quattor.maven</groupId>
     <artifactId>build-profile</artifactId>
     <version>1.62</version>
-    <relativePath />
+    <relativePath/>
   </parent>
   <licenses>
     <license>
@@ -21,8 +21,82 @@
   </licenses>
   <developers>
     <developer>
+      <name>Abdul Karim</name>
+    </developer>
+    <developer>
+      <name>Alan Fitton</name>
+    </developer>
+    <developer>
+      <name>Álvaro Simón Garcia</name>
+    </developer>
+    <developer>
+      <name>Andrea Sartirana</name>
+    </developer>
+    <developer>
+      <name>Andy Georges</name>
+    </developer>
+    <developer>
+      <name>Christos Triantafyllidis</name>
+    </developer>
+    <developer>
+      <name>Gabor Gombas</name>
+    </developer>
+    <developer>
+      <name>Guillaume Philippon</name>
+    </developer>
+    <developer>
+      <name>James Adams</name>
+    </developer>
+    <developer>
+      <name>Jan Iven</name>
+    </developer>
+    <developer>
+      <name>Jerome Pansanel</name>
+    </developer>
+    <developer>
+      <name>Jindrich Novy</name>
+    </developer>
+    <developer>
+      <name>Kenneth Waegeman</name>
+    </developer>
+    <developer>
+      <name>Loïc Brarda</name>
+    </developer>
+    <developer>
       <name>Luis Fernando Muñoz Mejías</name>
-      <email>Luis.Munoz@UGent.be</email>
+    </developer>
+    <developer>
+      <name>Marco Poleggi</name>
+    </developer>
+    <developer>
+      <name>Mark Bannister</name>
+    </developer>
+    <developer>
+      <name>Michel Jouvin</name>
+    </developer>
+    <developer>
+      <name>Nathan Dimmock</name>
+    </developer>
+    <developer>
+      <name>Nick Williams</name>
+    </developer>
+    <developer>
+      <name>Ronald Starink</name>
+    </developer>
+    <developer>
+      <name>Stephen Childs</name>
+    </developer>
+    <developer>
+      <name>Stijn De Weirdt</name>
+    </developer>
+    <developer>
+      <name>Victor Mendoza</name>
+    </developer>
+    <developer>
+      <name>Ward Poelmans</name>
+    </developer>
+    <developer>
+      <name>Wouter Depypere</name>
     </developer>
   </developers>
   <contributors>
@@ -79,6 +153,7 @@
           <artifactId>rpm-maven-plugin</artifactId>
           <configuration>
             <requires>
+              <require>perl</require>
               <require>authconfig</require>
             </requires>
             <mappings combine.children="append">

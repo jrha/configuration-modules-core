@@ -102,8 +102,8 @@ type conntrackd_service_general = {
     'Nice' : long(-20..19) = -20
     'HashSize' ? long(1..)
     'HashLimit' ? long(1..)
-    'Logfile' ? string # <on|off|filename>
-    'Syslog' ? string  # <on|off|facility>
+    'Logfile' ? match(SELF, '^(on|off)$') || is_absolute_path(SELF);
+    'Syslog' ? match(SELF, '^(on|off)$') || is_syslog_facility(SELF);
     'LockFile' : string = '/var/lock/conntrack.lock'
     'UNIX' : conntrackd_service_general_unix = dict()
     'NetlinkBufferSize' ? long(102400..)

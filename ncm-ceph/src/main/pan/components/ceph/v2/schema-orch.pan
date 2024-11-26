@@ -58,7 +58,7 @@ type ceph_orch_osd_devices = {
 };
 
 @documentation{ ceph orchestrator spec for osds.
-See https://docs.ceph.com/en/latest/cephadm/drivegroups/#osd-service-specification }
+See https://web.archive.org/web/20210127004226/https://docs.ceph.com/en/latest/cephadm/drivegroups/ }
 type ceph_orch_osd_drivegroup_spec = {
     'data_devices' ? ceph_orch_osd_devices
     'db_devices' ? ceph_orch_osd_devices
@@ -72,7 +72,7 @@ type ceph_orch_osd_drivegroup_spec = {
 };
 
 @documentation{ ceph orchestrator spec for osds.
-See https://docs.ceph.com/en/latest/cephadm/drivegroups/#osd-service-specification }
+See https://web.archive.org/web/20210127004226/https://docs.ceph.com/en/latest/cephadm/drivegroups/ }
 type ceph_orch_osd_spec = {
     'service_type' : choice('osd') = 'osd'
     'service_id' : string = 'default_drive_group'

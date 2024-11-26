@@ -61,7 +61,7 @@ To set up the initial cluster, some steps should be taken:
 =item 2. The deployhost(s) should have passwordless ssh access to all the hosts of the cluster
         e.g. by distributing the public key(s) of the ceph-deploy host(s) over the cluster hosts
             (As described in the ceph-deploy documentation:
-                        http://ceph.com/docs/master/start/quick-start-preflight/)
+             https://web.archive.org/web/20240516045747/https://docs.ceph.com/en/mimic/start/quick-start-preflight/)
 
 =item 3. The user should be able to run commands with sudo without password included in sudo.pan
 

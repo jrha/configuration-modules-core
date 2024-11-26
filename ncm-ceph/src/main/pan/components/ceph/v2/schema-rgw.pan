@@ -17,7 +17,7 @@ type ceph_rgw_config = {
 };
 
 @documentation{ ceph rados gateway type
-http://ceph.com/docs/master/radosgw/
+https://docs.ceph.com/en/latest/radosgw/
 }
 type ceph_radosgw = {
     'config' ? ceph_rgw_config

@@ -2,20 +2,22 @@ structure template struct/nss_conf_el6;
 
 "modules" = append(dict(
     "name", "nss_module",
-    "path", "modules/libmodnss.so"));
+    "path", "modules/libmodnss.so",
+));
 
 "listen" = append(dict(
-    "port", 8443));
+    "port", 8443,
+));
 
 "type/add" = list(
     dict(
         "name", "application/x-x509-ca-cert",
         "target", list(".crt"),
-        ),
+    ),
     dict(
         "name", "application/x-pkcs7-crl",
         "target", list(".crl"),
-        ),
+    ),
 );
 
 "nss" = dict(
@@ -33,7 +35,8 @@ structure template struct/nss_conf_el6;
 
 "vhosts/base" = create("struct/default_vhost",
     "documentroot", "/var/www/cgi-bin",
-    "port", 8443);
+    "port", 8443,
+);
 
 
 "vhosts/base/log/error" = "logs/nss_error_log";

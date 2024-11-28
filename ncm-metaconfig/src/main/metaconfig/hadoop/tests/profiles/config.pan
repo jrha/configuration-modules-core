@@ -27,7 +27,6 @@ prefix "/software/components/metaconfig/services/{/etc/hadoop/conf.quattor/core-
 'fs/defaultFS' = dict(
     'format', 'hdfs',
     'host', 'storage2204.shuppet.os',
-#    'port', 9000,
 );
 
 prefix "/software/components/metaconfig/services/{/etc/hadoop/conf.quattor/hdfs-site.xml}/contents/dfs";

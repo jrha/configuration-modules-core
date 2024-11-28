@@ -12,7 +12,7 @@ final variable BW_DEFS = dict(
     "archive_dir",
     "/var/lib/perfsonar/perfsonarbuoy_ma/bwctl/archive",
     "db", "bwctl",
-    );
+);
 
 final variable OWAMP_DEFS = dict(
     "data_dir",
@@ -22,10 +22,12 @@ final variable OWAMP_DEFS = dict(
     "archive_dir",
     "/var/lib/perfsonar/perfsonarbuoy_ma/owamp/archive",
     "db", "owamp",
-    );
+);
 
-type buoy_nodestring = type_fqdn with exists("/software/components/metaconfig/services/{/opt/perfsonar_ps/perfsonarbuoy_ma/etc/owmesh.conf}/contents/nodes/" + SELF) ||
+type buoy_nodestring = type_fqdn with {
+    exists("/software/components/metaconfig/services/{/opt/perfsonar_ps/perfsonarbuoy_ma/etc/owmesh.conf}/contents/nodes/" + SELF) ||
     error ("Node specification must exist: " + SELF);
+};
 
 type buoy_service_globals = {
     "data_dir" : string
@@ -93,9 +95,11 @@ type buoy_group = {
     "include_receivers" ? type_fqdn[]
     "senders" ? type_fqdn[]
     "receivers" ? type_fqdn[]
-} with SELF["type"] == "STAR" && exists(SELF["hauptnode"]) ||
+} with {
+    SELF["type"] == "STAR" && exists(SELF["hauptnode"]) ||
     SELF["type"] == "MESH" && !exists(SELF["hauptnode"]) ||
     error ("STAR type and hauptnode make sense only when specified together");
+};
 
 type buoy_host = {
     "node" : buoy_nodestring

@@ -40,9 +40,11 @@ type kdc_realm = {
     "acl_file" : string = "/var/kerberos/krb5kdc/kadm5.acl"
     "dict_file" : string = "/usr/share/dict/words"
     "admin_keytab" : string = "/var/kerberos/krb5kdc/krb5kdc/kadm5.keytab"
-    "supported_enctypes" : string[] = list("aes256-cts:normal",
-                                           "aes128-cts:normal",
-                                           "des3-hmac-sha1:normal")
+    "supported_enctypes" : string[] = list(
+        "aes256-cts:normal",
+        "aes128-cts:normal",
+        "des3-hmac-sha1:normal",
+    )
 };
 
 type kdc_conf_file = {

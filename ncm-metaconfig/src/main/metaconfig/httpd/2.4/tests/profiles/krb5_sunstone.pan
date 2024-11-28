@@ -26,8 +26,7 @@ prefix "/software/components/metaconfig/services/{/etc/httpd/conf.d/krb5_sunston
 'documentroot' = SUNSTONE_PUBLIC_DIR;
 'servername' = format("%s:%d", FULL_HOSTNAME, 443);
 'passenger/user' = 'oneadmin';
-
-    'hostnamelookups' = true;
+'hostnamelookups' = true;
 'ip/0' = DB_IP[HOSTNAME];
 
 'nss/engine' = true;

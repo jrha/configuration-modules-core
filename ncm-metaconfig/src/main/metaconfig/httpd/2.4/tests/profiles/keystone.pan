@@ -86,6 +86,11 @@ prefix "contents";
     data['name'] = "/identity_admin";
     data['wsgi']['processgroup'] = "keystone-admin";
     data["casscope"] = "/";
+    data["cascookie"] = "MOD_AUTH_CAS_CUSTOM";
+    data["cassecurecookie"] = "MOD_AUTH_CAS_CUSTOM_S";
+    data["casgatewaycookie"] = "MOD_AUTH_CAS_CUSTOM_G";
+    data["casssoenabled"] = true;
+
     append(data);
 
     SELF;

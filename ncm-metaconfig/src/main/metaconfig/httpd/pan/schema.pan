@@ -621,9 +621,16 @@ type httpd_expires = {
     "default" ? string
     "bytype" ? string{}
 };
-
+type httpd_cas = {
+    "casscope" ? string_trimmed
+    "cascookie" ? string_trimmed
+    "cassecurecookie" ? string_trimmed
+    "casgatewaycookie" ? string_trimmed
+    "casssoenabled" ? boolean
+};
 type httpd_directory = {
     include httpd_file
+    include httpd_cas
     "rewrite" ? httpd_rewrite
     "handler" ? httpd_handler
     "outputfilter" ? httpd_outputfilter
@@ -637,7 +644,6 @@ type httpd_directory = {
     "davrods" ? httpd_davrods
     "files" ? httpd_file[]
     "expires" ? httpd_expires
-    "casscope" ? string_trimmed
 };
 
 type httpd_vhost_ip = string with is_ip(SELF) || SELF == '*';

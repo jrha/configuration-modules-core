@@ -16,11 +16,15 @@ Base test for keystone wsgi config
 ^</location>
 ^<location /identity_admin>
 ^    options \+ExecCGI
+^    casscope /
+^    cascookie MOD_AUTH_CAS_CUSTOM
+^    cassecurecookie MOD_AUTH_CAS_CUSTOM_S
+^    casgatewaycookie MOD_AUTH_CAS_CUSTOM_G
+^    casssoenabled on
 ^    sethandler wsgi-script
 ^    wsgiapplicationgroup %\{GLOBAL\}
 ^    wsgipassauthorization on
 ^    wsgiprocessgroup keystone-admin
-^    casscope /
 ^</location>
 ^<virtualhost    \*:5000>
 ^    hostnamelookups off
